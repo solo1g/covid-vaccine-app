@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
+                // TODO: modifu ui elements of DailyCases class
                 child: DailyCases(),
               ),
             ),
