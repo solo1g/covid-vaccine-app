@@ -261,11 +261,51 @@ class _DailyCasesState extends State<DailyCases> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var today = snapshot.data.casesTimeSeries.last;
-          return Column(
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Text("Daily cases: ${today.dailyconfirmed}"),
-              Text("Daily deaths: ${today.dailydeceased}"),
-              Text("Daily recoveries: ${today.dailyrecovered}")
+              Column(
+                children: <Widget>[
+                  Text("Daily cases"),
+                  SizedBox(height: 10),
+                  Text(
+                    "${today.dailyconfirmed}",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text("Daily recoveries"),
+                  SizedBox(height: 10),
+                  Text(
+                    "${today.dailyrecovered}",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text("Daily deaths"),
+                  SizedBox(height: 10),
+                  Text(
+                    "${today.dailydeceased}",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ],
           );
         } else if (snapshot.hasError) {
