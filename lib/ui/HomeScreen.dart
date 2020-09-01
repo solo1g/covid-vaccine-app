@@ -1,4 +1,6 @@
+import 'package:covidvaccineapp/ui/HomeScreenWidgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,6 +20,24 @@ class _HomeScreenState extends State<HomeScreen> {
             bottom: Radius.circular(30),
           ),
         ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: susceptibilityPercent("Susceptibility", 0.237),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
