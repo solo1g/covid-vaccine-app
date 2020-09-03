@@ -266,7 +266,10 @@ class _DailyCasesState extends State<DailyCases> {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  Text("Daily cases"),
+                  Text(
+                    "Daily cases",
+                    style: TextStyle(color: Colors.red),
+                  ),
                   SizedBox(height: 10),
                   Text(
                     "${today.dailyconfirmed}",
@@ -280,7 +283,10 @@ class _DailyCasesState extends State<DailyCases> {
               ),
               Column(
                 children: <Widget>[
-                  Text("Daily recoveries"),
+                  Text(
+                    "Daily recoveries",
+                    style: TextStyle(color: Colors.green),
+                  ),
                   SizedBox(height: 10),
                   Text(
                     "${today.dailyrecovered}",
@@ -294,12 +300,15 @@ class _DailyCasesState extends State<DailyCases> {
               ),
               Column(
                 children: <Widget>[
-                  Text("Daily deaths"),
+                  Text(
+                    "Daily deaths",
+                    style: TextStyle(color: Colors.black),
+                  ),
                   SizedBox(height: 10),
                   Text(
                     "${today.dailydeceased}",
                     style: TextStyle(
-                      color: Colors.red,
+                      color: Colors.black54,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),

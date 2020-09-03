@@ -1,6 +1,7 @@
 import 'package:covidvaccineapp/ui/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(App());
@@ -19,9 +20,11 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Covid App',
       debugShowCheckedModeBanner: false,
-//      theme: ThemeData(
-//        TODO: set up theme data
-//      ),
+      theme: ThemeData(
+        textTheme: GoogleFonts.montserratTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
       home: HomeScreen(),
     );
   }
