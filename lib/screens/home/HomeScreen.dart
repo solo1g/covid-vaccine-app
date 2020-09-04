@@ -1,8 +1,9 @@
-import 'package:covidvaccineapp/ui/DailyCases.dart';
-import 'package:covidvaccineapp/ui/HomeScreenWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../ui/DailyCases.dart';
+import '../../widgets/home/HomeScreenWidgets.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

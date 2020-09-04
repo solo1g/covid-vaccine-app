@@ -1,8 +1,8 @@
-import 'package:covidvaccineapp/ui/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import './screens/home/HomeScreen.dart';
 
 class Home extends StatelessWidget {
   @override
