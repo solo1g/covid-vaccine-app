@@ -160,14 +160,7 @@ class SignUpScreen extends StatelessWidget {
                     AlreadyHaveAnAccountCheck(
                       login: false,
                       press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return SignInOne();
-                            },
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ],

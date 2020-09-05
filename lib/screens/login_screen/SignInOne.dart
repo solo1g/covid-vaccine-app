@@ -121,11 +121,7 @@ class SignInOne extends StatelessWidget {
                         press: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return SignUp();
-                              },
-                            ),
+                            MaterialPageRoute(builder: (context) => SignUp()),
                           );
                         },
                       ),
