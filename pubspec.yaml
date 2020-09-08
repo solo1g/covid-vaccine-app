@@ -27,6 +27,7 @@ dependencies:
   http:
   firebase_database:
   firebase_core:
+  firebase_auth:
   font_awesome_flutter:
   google_fonts:
   expandable:
