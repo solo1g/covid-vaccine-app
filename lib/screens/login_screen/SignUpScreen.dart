@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // import '../../SignIn.dart';
 // import 'SignInOne.dart';
 import '../../widgets/login/already_have_a_account_check.dart';
-import '../login_screen/SignInOne.dart';
+//import '../login_screen/SignInOne.dart';
 
 class SignUpScreen extends StatelessWidget {
   final _passwordFocusNode = FocusNode();

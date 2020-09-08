@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../home.dart';
+import '../../Home.dart';
 import '../../sign_up.dart';
-// import 'SignUpScreen.dart';
-import '../../Widgets/login/already_have_a_account_check.dart';
+import 'SignUpScreen.dart';
+//import '../../Widgets/login/already_have_a_account_check.dart';
 
 class SignInOne extends StatelessWidget {
   final _passwordFocusNode = FocusNode();
@@ -117,14 +117,14 @@ class SignInOne extends StatelessWidget {
                           ),
                         ),
                       ),
-                      AlreadyHaveAnAccountCheck(
-                        press: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SignUp()),
-                          );
-                        },
-                      ),
+//                      AlreadyHaveAnAccountCheck(
+//                        press: () {
+//                          Navigator.push(
+//                            context,
+//                            MaterialPageRoute(builder: (context) => SignUp()),
+//                          );
+//                        },
+//                      ),
                     ],
                   ),
                 ),
