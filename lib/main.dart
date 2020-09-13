@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+// import 'SignIn.dart';
+// import 'Home.dart';
 
-void main() {
-  runApp(App());
-}
+import './screens/login_screen/SignInOne.dart';
 
-class App extends StatelessWidget {
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Covid Vaccine App"),
-        ),
-        body: Center(
-          child: Text("Covid Vaccine App"),
-        ),
-      ),
+      home: SignInOne(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
