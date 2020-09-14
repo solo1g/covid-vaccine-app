@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import './screens/Signin_up.dart';
+import './screens/navigation.dart';
+import './screens/HomeScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,10 @@ class MyApp extends StatelessWidget {
       ),
       home: SignScreen(),
       debugShowCheckedModeBanner: false,
+      routes: {
+        HomeScreen.routeName: (ctx) => HomeScreen(),
+        NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
+      },
     );
   }
 }

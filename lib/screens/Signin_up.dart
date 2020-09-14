@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './HomeScreen.dart';
+import '../screens/navigation.dart';
 
 enum Mode { Signup, Login }
 
@@ -223,10 +223,8 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
                     onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      ),
+                      Navigator.of(context)
+                          .pushReplacementNamed(NavigationHomeScreen.routeName),
                     },
                     child: Text(
                       _mode == Mode.Login ? 'SIGN IN' : 'SIGN UP',
