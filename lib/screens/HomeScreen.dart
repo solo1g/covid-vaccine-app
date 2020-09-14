@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../ui/DailyCases.dart';
-import '../../widgets/home/HomeScreenWidgets.dart';
+import '../ui/DailyCases.dart';
+import '../widgets/home/HomeScreenWidgets.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,16 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       //TODO: Replace it with better drawer.
-      drawer: Drawer(
-          child: ListView(
-        padding: EdgeInsets.all(40),
-        children: [
-          Text(
-              "This is temporary drawer to be replaced later, currently only to hold other pages, do not modify"),
-          Text("Login screen"),
-          Text("Register screen"),
-        ],
-      )),
+      // drawer: Drawer(
+      //     child: ListView(
+      //   padding: EdgeInsets.all(40),
+      //   children: [
+      //     Text(
+      //         "This is temporary drawer to be replaced later, currently only to hold other pages, do not modify"),
+      //     Text("Login screen"),
+      //     Text("Register screen"),
+      //   ],
+      // )),
+      // drawer: AppDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
