@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidvaccineapp/screens/UserDetails.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../screens/navigation.dart';
 
 enum Mode { Signup, Login }
@@ -44,6 +45,7 @@ class Sign extends StatefulWidget {
 }
 
 class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
+  final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   String _email, _password, _confirmPassword;
@@ -97,6 +99,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
       duration: Duration(milliseconds: 300),
       curve: Curves.easeIn,
       child: Form(
+        key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(23),
           child: SingleChildScrollView(
@@ -148,6 +151,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   child: Container(
                     color: Colors.white,
                     child: TextFormField(
+                      validator: FormBuilderValidators.email(),
                       onChanged: (txt) => _email = txt,
                       focusNode: _emailFocusNode,
                       keyboardType: TextInputType.emailAddress,
@@ -176,6 +180,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   child: Container(
                     color: Colors.white,
                     child: TextFormField(
+                      validator: FormBuilderValidators.minLength(6),
                       onChanged: (txt) => _password = txt,
                       textInputAction: _mode == Mode.Signup
                           ? TextInputAction.next
@@ -219,6 +224,10 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: TextFormField(
+                        validator: (txt) {
+                          if (txt != _password) return "Passwords don't match";
+                          return null;
+                        },
                         onChanged: (txt) => _confirmPassword = txt,
                         enabled: _mode == Mode.Signup,
                         obscureText: true,
@@ -250,40 +259,43 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
                     onPressed: () async {
-                      if (_mode == Mode.Login) {
-                        try {
-                          final user = await _auth.signInWithEmailAndPassword(
-                              email: _email, password: _password);
-                          if (user != null) {
-                            _firestore
-                                .collection("UserDetails")
-                                .doc(_auth.currentUser.email)
-                                .get()
-                                .then((doc) {
-                              if (doc.exists &&
-                                  doc.data()["detailsComplete"] == true) {
-                                Navigator.of(context).pushReplacementNamed(
-                                    NavigationHomeScreen.routeName);
-                              } else {
-                                Navigator.pushNamed(
-                                    context, UserDetailsStepper.routeName);
-                              }
-                            });
+                      _email = _email.trim();
+                      if (_formKey.currentState.validate()) {
+                        if (_mode == Mode.Login) {
+                          try {
+                            final user = await _auth.signInWithEmailAndPassword(
+                                email: _email, password: _password);
+                            if (user != null) {
+                              _firestore
+                                  .collection("UserDetails")
+                                  .doc(_auth.currentUser.email)
+                                  .get()
+                                  .then((doc) {
+                                if (doc.exists &&
+                                    doc.data()["detailsComplete"] == true) {
+                                  Navigator.of(context).pushReplacementNamed(
+                                      NavigationHomeScreen.routeName);
+                                } else {
+                                  Navigator.pushNamed(
+                                      context, UserDetailsStepper.routeName);
+                                }
+                              });
+                            }
+                          } catch (e) {
+                            print(e);
                           }
-                        } catch (e) {
-                          print(e);
-                        }
-                      } else {
-                        try {
-                          final newUser =
-                              await _auth.createUserWithEmailAndPassword(
-                                  email: _email, password: _password);
-                          if (newUser != null) {
-                            Navigator.of(context).pushReplacementNamed(
-                                UserDetailsStepper.routeName);
+                        } else {
+                          try {
+                            final newUser =
+                                await _auth.createUserWithEmailAndPassword(
+                                    email: _email, password: _password);
+                            if (newUser != null) {
+                              Navigator.of(context).pushReplacementNamed(
+                                  UserDetailsStepper.routeName);
+                            }
+                          } catch (e) {
+                            print(e);
                           }
-                        } catch (e) {
-                          print(e);
                         }
                       }
                     },

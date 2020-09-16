@@ -289,7 +289,12 @@ class _UserDetailsPage2State extends State<UserDetailsPage2> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          FormBuilder(key: _formKey, child: Column(children: [])),
+          FormBuilder(
+              key: _formKey,
+              child: Column(children: [
+                //TODO
+                Text("TODO")
+              ])),
           FlatButton(
             child: Text("Next"),
             onPressed: () {
@@ -331,7 +336,12 @@ class _UserDetailsPage3State extends State<UserDetailsPage3> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          FormBuilder(key: _formKey, child: Column(children: [])),
+          FormBuilder(
+              key: _formKey,
+              child: Column(children: [
+                //TODO
+                Text("TODO"),
+              ])),
           FlatButton(
             child: Text("Next"),
             onPressed: () {
