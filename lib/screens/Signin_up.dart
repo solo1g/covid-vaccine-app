@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidvaccineapp/screens/UserDetails.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../screens/navigation.dart';
 
 enum Mode { Signup, Login }
@@ -42,6 +44,9 @@ class Sign extends StatefulWidget {
 }
 
 class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  String _email, _password, _confirmPassword;
   Mode _mode = Mode.Login;
   final _passwordFocusNode = FocusNode();
   final _confirmpasswordFocusNode = FocusNode();
@@ -143,6 +148,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   child: Container(
                     color: Colors.white,
                     child: TextFormField(
+                      onChanged: (txt) => _email = txt,
                       focusNode: _emailFocusNode,
                       keyboardType: TextInputType.emailAddress,
                       style: TextStyle(
@@ -170,6 +176,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   child: Container(
                     color: Colors.white,
                     child: TextFormField(
+                      onChanged: (txt) => _password = txt,
                       textInputAction: _mode == Mode.Signup
                           ? TextInputAction.next
                           : TextInputAction.done,
@@ -212,6 +219,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: TextFormField(
+                        onChanged: (txt) => _confirmPassword = txt,
                         enabled: _mode == Mode.Signup,
                         obscureText: true,
                         style: TextStyle(
@@ -241,9 +249,43 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
-                    onPressed: () => {
-                      Navigator.of(context)
-                          .pushReplacementNamed(NavigationHomeScreen.routeName),
+                    onPressed: () async {
+                      if (_mode == Mode.Login) {
+                        try {
+                          final user = await _auth.signInWithEmailAndPassword(
+                              email: _email, password: _password);
+                          if (user != null) {
+                            _firestore
+                                .collection("UserDetails")
+                                .doc(_auth.currentUser.email)
+                                .get()
+                                .then((doc) {
+                              if (doc.exists &&
+                                  doc.data()["detailsComplete"] == true) {
+                                Navigator.of(context).pushReplacementNamed(
+                                    NavigationHomeScreen.routeName);
+                              } else {
+                                Navigator.pushNamed(
+                                    context, UserDetailsStepper.routeName);
+                              }
+                            });
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      } else {
+                        try {
+                          final newUser =
+                              await _auth.createUserWithEmailAndPassword(
+                                  email: _email, password: _password);
+                          if (newUser != null) {
+                            Navigator.of(context).pushReplacementNamed(
+                                UserDetailsStepper.routeName);
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      }
                     },
                     child: Text(
                       _mode == Mode.Login ? 'SIGN IN' : 'SIGN UP',
@@ -274,7 +316,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                     GestureDetector(
                       onTap: _switchMode,
                       child: Text(
-                        _mode == Mode.Signup ? "Sign Up" : "Sign In",
+                        _mode == Mode.Signup ? "Sign In" : "Sign Up",
                         style: TextStyle(
                           color: Color.fromRGBO(205, 127, 80, 10),
                           fontWeight: FontWeight.bold,

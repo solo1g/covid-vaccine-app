@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
+        UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
       },
     );
   }

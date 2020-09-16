@@ -1,18 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidvaccineapp/screens/HomeScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class UserDetailsStepper extends StatefulWidget {
+  static const routeName = "userdetails";
+  static int userDetailsPagesCount = 3;
   @override
   _UserDetailsStepperState createState() => _UserDetailsStepperState();
 }
 
 class _UserDetailsStepperState extends State<UserDetailsStepper> {
-  int _currentStep;
+  // final _firestore = FirebaseFirestore.instance;
+  // final _auth = FirebaseAuth.instance;
+  CollectionReference ref;
+  var _currentStep;
+  String userEmail;
   List<bool> activeStates;
   @override
   void initState() {
+    // userEmail = _auth.currentUser.email;
+    // ref = _firestore.collection("UserDetails");
+    // ref.doc(userEmail).get().then((doc) {
+    //   if (doc.exists) {
+    //     _currentStep = doc.data()["regStepsDone"];
+    //   }
+    // });
     _currentStep = 0;
     activeStates = [true, false, false];
     super.initState();
@@ -48,7 +63,9 @@ class _UserDetailsStepperState extends State<UserDetailsStepper> {
       Step(
         state: _getState(2),
         title: Text("3"),
-        content: Text("To be added"),
+        content: UserDetailsPage3(
+          nextStepCallback: nextStep,
+        ),
         isActive: activeStates[2],
       ),
     ];
@@ -59,6 +76,8 @@ class _UserDetailsStepperState extends State<UserDetailsStepper> {
       if (_currentStep < activeStates.length - 1) {
         _currentStep++;
         activeStates[_currentStep] = true;
+      } else {
+        Navigator.pushNamed(context, HomeScreen.routeName);
       }
     });
   }
@@ -100,6 +119,7 @@ class UserDetailsPage1 extends StatefulWidget {
 class _UserDetailsPage1State extends State<UserDetailsPage1> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -114,16 +134,6 @@ class _UserDetailsPage1State extends State<UserDetailsPage1> {
                   decoration: const InputDecoration(
                       labelText: 'Name', hintText: "Enter your name"),
                   validators: [FormBuilderValidators.required()],
-                ),
-                SizedBox(height: 4),
-                FormBuilderTextField(
-                  attribute: 'email',
-                  decoration: const InputDecoration(
-                      labelText: 'Email', hintText: "Enter your email"),
-                  validators: [
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.email(),
-                  ],
                 ),
                 SizedBox(height: 4),
                 FormBuilderDropdown(
@@ -241,18 +251,19 @@ class _UserDetailsPage1State extends State<UserDetailsPage1> {
           FlatButton(
             child: Text("Next"),
             onPressed: () {
-              // if (_formKey.currentState.saveAndValidate()) {
-              //   print(_formKey.currentState.value);
-              //   var x = _formKey.currentState.value;
-              //   _firestore.collection('data').doc(x["email"]).set(
-              //     {
-              //       "name": x["name"],
-              //     },
-              //     SetOptions(merge: true),
-              //   );
-              // } else {
-              //   print("Invalid");
-              // }
+              if (_formKey.currentState.saveAndValidate()) {
+                print(_formKey.currentState.value);
+                var formData = _formKey.currentState.value;
+                _firestore
+                    .collection('UserDetails')
+                    .doc(_auth.currentUser.email)
+                    .set(
+                      formData,
+                      SetOptions(merge: true),
+                    );
+              } else {
+                print("Invalid");
+              }
               widget.nextStepCallback();
             },
           )
@@ -272,6 +283,7 @@ class UserDetailsPage2 extends StatefulWidget {
 class _UserDetailsPage2State extends State<UserDetailsPage2> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -281,18 +293,62 @@ class _UserDetailsPage2State extends State<UserDetailsPage2> {
           FlatButton(
             child: Text("Next"),
             onPressed: () {
-              // if (_formKey.currentState.saveAndValidate()) {
-              //   print(_formKey.currentState.value);
-              //   var x = _formKey.currentState.value;
-              //   _firestore.collection('data').doc(x["email"]).set(
-              //     {
-              //       "name": x["name"],
-              //     },
-              //     SetOptions(merge: true),
-              //   );
-              // } else {
-              //   print("Invalid");
-              // }
+              if (_formKey.currentState.saveAndValidate()) {
+                print(_formKey.currentState.value);
+                var formData = _formKey.currentState.value;
+                _firestore
+                    .collection('UserDetails')
+                    .doc(_auth.currentUser.email)
+                    .set(
+                      formData,
+                      SetOptions(merge: true),
+                    );
+              } else {
+                print("Invalid");
+              }
+              widget.nextStepCallback();
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class UserDetailsPage3 extends StatefulWidget {
+  var nextStepCallback;
+  UserDetailsPage3({this.nextStepCallback});
+  @override
+  _UserDetailsPage3State createState() => _UserDetailsPage3State();
+}
+
+class _UserDetailsPage3State extends State<UserDetailsPage3> {
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          FormBuilder(key: _formKey, child: Column(children: [])),
+          FlatButton(
+            child: Text("Next"),
+            onPressed: () {
+              if (_formKey.currentState.saveAndValidate()) {
+                print(_formKey.currentState.value);
+                var formData = _formKey.currentState.value;
+                formData["detailsComplete"] = true;
+                _firestore
+                    .collection('UserDetails')
+                    .doc(_auth.currentUser.email)
+                    .set(
+                      formData,
+                      SetOptions(merge: true),
+                    );
+              } else {
+                print("Invalid");
+              }
               widget.nextStepCallback();
             },
           )
