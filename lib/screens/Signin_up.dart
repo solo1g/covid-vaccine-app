@@ -44,6 +44,8 @@ class Sign extends StatefulWidget {
 class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
   Mode _mode = Mode.Login;
   final _passwordFocusNode = FocusNode();
+  final _confirmpasswordFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
   AnimationController _controller;
   Animation<double> _opacity;
 
@@ -95,31 +97,6 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-                  child: Container(
-                    color: Colors.white,
-                    child: TextFormField(
-                      style: TextStyle(
-                          color: Colors.black, fontFamily: 'SFUIDisplay'),
-                      textInputAction: TextInputAction.next,
-                      onFieldSubmitted: (_) {
-                        FocusScope.of(context).requestFocus(_passwordFocusNode);
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: Colors.black,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        labelStyle: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
                 AnimatedContainer(
                   constraints: BoxConstraints(
                     minHeight: _mode == Mode.Signup ? 60 : 0,
@@ -130,20 +107,26 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   child: FadeTransition(
                     opacity: _opacity,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
                       child: TextFormField(
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) {
+                          _mode == Mode.Login
+                              ? FocusScope.of(context)
+                                  .requestFocus(_passwordFocusNode)
+                              : FocusScope.of(context)
+                                  .requestFocus(_emailFocusNode);
+                        },
                         enabled: _mode == Mode.Signup,
-                        obscureText: true,
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'SFUIDisplay',
                         ),
-                        focusNode: _passwordFocusNode,
                         decoration: InputDecoration(
-                          labelText: 'Email-Id',
+                          labelText: 'Username',
                           focusColor: Colors.black,
                           prefixIcon: Icon(
-                            Icons.mail,
+                            Icons.person,
                             color: Colors.black,
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -156,10 +139,46 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                  child: Container(
+                    color: Colors.white,
+                    child: TextFormField(
+                      focusNode: _emailFocusNode,
+                      keyboardType: TextInputType.emailAddress,
+                      style: TextStyle(
+                          color: Colors.black, fontFamily: 'SFUIDisplay'),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(_passwordFocusNode);
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Email-id',
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.black,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        labelStyle: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                   child: Container(
                     color: Colors.white,
                     child: TextFormField(
+                      textInputAction: _mode == Mode.Signup
+                          ? TextInputAction.next
+                          : TextInputAction.done,
+                      onFieldSubmitted: (_) {
+                        _mode == Mode.Signup
+                            ? FocusScope.of(context)
+                                .requestFocus(_confirmpasswordFocusNode)
+                            : null;
+                      },
                       obscureText: true,
                       style: TextStyle(
                         color: Colors.black,
@@ -199,7 +218,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                           color: Colors.black,
                           fontFamily: 'SFUIDisplay',
                         ),
-                        focusNode: _passwordFocusNode,
+                        focusNode: _confirmpasswordFocusNode,
                         decoration: InputDecoration(
                           labelText: 'Confirm Password',
                           focusColor: Colors.black,
