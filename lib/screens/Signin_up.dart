@@ -97,47 +97,47 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                AnimatedContainer(
-                  constraints: BoxConstraints(
-                    minHeight: _mode == Mode.Signup ? 60 : 0,
-                    maxHeight: _mode == Mode.Signup ? 120 : 0,
-                  ),
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeIn,
-                  child: FadeTransition(
-                    opacity: _opacity,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) {
-                          _mode == Mode.Login
-                              ? FocusScope.of(context)
-                                  .requestFocus(_passwordFocusNode)
-                              : FocusScope.of(context)
-                                  .requestFocus(_emailFocusNode);
-                        },
-                        enabled: _mode == Mode.Signup,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'SFUIDisplay',
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Username',
-                          focusColor: Colors.black,
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: Colors.black,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          labelStyle: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // AnimatedContainer(
+                //   constraints: BoxConstraints(
+                //     minHeight: _mode == Mode.Signup ? 60 : 0,
+                //     maxHeight: _mode == Mode.Signup ? 120 : 0,
+                //   ),
+                //   duration: Duration(milliseconds: 300),
+                //   curve: Curves.easeIn,
+                //   child: FadeTransition(
+                //     opacity: _opacity,
+                //     child: Padding(
+                //       padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                //       child: TextFormField(
+                //         textInputAction: TextInputAction.next,
+                //         onFieldSubmitted: (_) {
+                //           _mode == Mode.Login
+                //               ? FocusScope.of(context)
+                //                   .requestFocus(_passwordFocusNode)
+                //               : FocusScope.of(context)
+                //                   .requestFocus(_emailFocusNode);
+                //         },
+                //         enabled: _mode == Mode.Signup,
+                //         style: TextStyle(
+                //           color: Colors.black,
+                //           fontFamily: 'SFUIDisplay',
+                //         ),
+                //         decoration: InputDecoration(
+                //           labelText: 'Username',
+                //           focusColor: Colors.black,
+                //           prefixIcon: Icon(
+                //             Icons.person,
+                //             color: Colors.black,
+                //           ),
+                //           focusedBorder: OutlineInputBorder(
+                //             borderSide: BorderSide(color: Colors.black),
+                //           ),
+                //           labelStyle: TextStyle(fontSize: 15),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 5),
                   child: Container(
