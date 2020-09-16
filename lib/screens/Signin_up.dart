@@ -151,7 +151,14 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   child: Container(
                     color: Colors.white,
                     child: TextFormField(
-                      validator: FormBuilderValidators.email(),
+                      validator: (txt) {
+                        if (txt.isEmpty ||
+                            txt == null ||
+                            !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(txt))
+                          return "Enter a valid email address";
+                        return null;
+                      },
                       onChanged: (txt) => _email = txt,
                       focusNode: _emailFocusNode,
                       keyboardType: TextInputType.emailAddress,
@@ -225,7 +232,8 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: TextFormField(
                         validator: (txt) {
-                          if (txt != _password) return "Passwords don't match";
+                          if (_mode == Mode.Signup && txt != _password)
+                            return "Passwords don't match";
                           return null;
                         },
                         onChanged: (txt) => _confirmPassword = txt,
@@ -259,8 +267,8 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                   padding: EdgeInsets.only(top: 20),
                   child: MaterialButton(
                     onPressed: () async {
-                      _email = _email.trim();
                       if (_formKey.currentState.validate()) {
+                        _email = _email.trim();
                         if (_mode == Mode.Login) {
                           try {
                             final user = await _auth.signInWithEmailAndPassword(
