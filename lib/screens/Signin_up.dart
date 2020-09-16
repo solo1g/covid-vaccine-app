@@ -8,6 +8,7 @@ import '../screens/navigation.dart';
 enum Mode { Signup, Login }
 
 class SignScreen extends StatelessWidget {
+  static const routeName = "signscreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

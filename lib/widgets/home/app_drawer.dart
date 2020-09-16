@@ -1,3 +1,5 @@
+import 'package:covidvaccineapp/screens/Signin_up.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatefulWidget {
@@ -17,6 +19,7 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
+  final _auth = FirebaseAuth.instance;
   List<DrawerList> drawerList;
   @override
   void initState() {
@@ -163,7 +166,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
-                onTap: () {},
+                onTap: () {
+                  _auth.signOut();
+                  Navigator.of(context).pushNamed(SignScreen.routeName);
+                },
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,

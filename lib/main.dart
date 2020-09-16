@@ -1,4 +1,5 @@
 import 'package:covidvaccineapp/screens/UserDetails.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,12 +35,15 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: SignScreen(),
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? SignScreen.routeName
+          : NavigationHomeScreen.routeName,
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
         UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
+        SignScreen.routeName: (ctx) => SignScreen(),
       },
     );
   }
