@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   topRight: Radius.circular(60),
                   bottomRight: Radius.circular(15),
                   bottomLeft: Radius.circular(60),
+<<<<<<< HEAD
                 ),
               ),
               child: name == null
@@ -115,7 +116,53 @@ class _HomeScreenState extends State<HomeScreen> {
                   // TODO: modifu ui elements of DailyCases class
 
                   child: DailyCases(),
+=======
                 ),
+              ),
+              child: name == null
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("Hello $name"),
+                    ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(60),
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(60),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: susceptibilityPercent("Susceptibility", 0.237),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(60),
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(60),
+>>>>>>> parent of 8ad31c4... Added loading spinner to home screen, refactored code and implemented dummy userAnalysis function to be completed later
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                // TODO: modifu ui elements of DailyCases class
+
+                child: DailyCases(),
               ),
             ),
           ),
