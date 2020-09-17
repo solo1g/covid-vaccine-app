@@ -1,9 +1,9 @@
-import 'package:covidvaccineapp/screens/UserDetails.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/home/app_drawer.dart';
 import './HomeScreen.dart';
 import '../widgets/home/app_drawer_controller.dart';
+import './UserDetails.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
   static const routeName = '/navhome';

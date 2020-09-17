@@ -1,5 +1,5 @@
 import 'package:covidvaccineapp/screens/Signin_up.dart';
-import 'package:covidvaccineapp/screens/covid_details.dart';
+// import 'package:covidvaccineapp/screens/covid_details.dart';
 import 'package:covidvaccineapp/screens/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -175,8 +175,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ),
                 onTap: () {
                   _auth.signOut();
-                  Navigator.of(context)
-                      .pushReplacementNamed(SignScreen.routeName);
+                  Navigator.of(context).pushReplacementNamed(Sign.routeName);
                 },
               ),
               SizedBox(
