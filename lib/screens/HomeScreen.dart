@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text("Hello ${name}"),
+                      child: Text("Hello $name"),
                     ),
             ),
           ),
