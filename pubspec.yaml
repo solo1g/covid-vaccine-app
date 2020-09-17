@@ -32,8 +32,12 @@ dependencies:
   expandable:
   cloud_firestore:
   flutter_form_builder:
+<<<<<<< HEAD
   bubble_tab_indicator: ^0.1.4
   fl_chart: ^0.11.1
+=======
+  modal_progress_hud:
+>>>>>>> 8ad31c42c2959314b866b985704ea610c8a5762f
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

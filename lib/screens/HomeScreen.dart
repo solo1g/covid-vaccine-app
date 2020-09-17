@@ -3,9 +3,11 @@ import 'package:covidvaccineapp/screens/covid_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../ui/DailyCases.dart';
 import '../widgets/home/HomeScreenWidgets.dart';
+import 'dart:math';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,40 +18,48 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool showSpinner;
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   /*
   NO NEED TO OPTIMISE CODE. THIS IS JUST TEMPORARY AND I WILL OPTIMISE LATER.
    */
-  String name;
+  Map<String, dynamic> userData = {};
+  Map<String, dynamic> userAnalysis = {};
   @override
   void initState() {
     super.initState();
-    fetch();
+    showSpinner = true;
+    fetchUserData();
   }
 
-  Future<void> fetch() async {
+  Future<void> fetchUserData() async {
     var doc = await _firestore
         .collection("UserDetails")
         .doc(_auth.currentUser.email)
         .get();
-    print(doc.data());
     setState(() {
-      name = doc.data()["name"];
+      userData = doc.data();
+      userAnalysis = getUserAnalysis(userData);
+      showSpinner = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Covid app"),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Covid app"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
           ),
         ),
+<<<<<<< HEAD
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,30 +85,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Text("Hello $name"),
                     ),
+=======
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+>>>>>>> 8ad31c42c2959314b866b985704ea610c8a5762f
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(60),
-                  bottomRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(60),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: susceptibilityPercent("Susceptibility", 0.237),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () =>
-                Navigator.of(context).pushNamed(CovidDetails.routeName),
-            child: Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               child: Card(
                 elevation: 3,
@@ -111,16 +106,59 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: susceptibilityPercent("Susceptibility",
+                      userAnalysis["x"] == null ? 0.0 : userAnalysis["x"]),
+                ),
+              ),
+            ),
+<<<<<<< HEAD
+          ),
+          GestureDetector(
+            onTap: () =>
+                Navigator.of(context).pushNamed(CovidDetails.routeName),
+            child: Padding(
+=======
+            Padding(
+>>>>>>> 8ad31c42c2959314b866b985704ea610c8a5762f
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(60),
+                    bottomRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(60),
+                  ),
+<<<<<<< HEAD
+                ),
+                child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   // TODO: modifu ui elements of DailyCases class
 
                   child: DailyCases(),
                 ),
+=======
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  // TODO: modifu ui elements of DailyCases class
+                  child: DailyCases(),
+                ),
+>>>>>>> 8ad31c42c2959314b866b985704ea610c8a5762f
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
+
+Map<String, dynamic> getUserAnalysis(Map<String, dynamic> userData) {
+  //if you expected something better prepare to be disappointed
+  Map<String, dynamic> analysis = {};
+  analysis["x"] = min(100.0, double.parse(userData["weight"]) / 100.0);
+  return analysis;
 }

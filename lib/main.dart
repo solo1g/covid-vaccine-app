@@ -39,8 +39,9 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
+      //initialRoute: UserDetailsStepper.routeName,
       initialRoute: FirebaseAuth.instance.currentUser == null
-          ? SignScreen.routeName
+          ? Sign.routeName
           : NavigationHomeScreen.routeName,
       // : CovidDetails.routeName,
       debugShowCheckedModeBanner: false,
@@ -48,9 +49,13 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
         UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
+<<<<<<< HEAD
         SignScreen.routeName: (ctx) => SignScreen(),
         CovidDetails.routeName: (ctx) => CovidDetails(),
         UserProfile.routeName: (ctx) => UserProfile(),
+=======
+        Sign.routeName: (ctx) => Sign(),
+>>>>>>> 8ad31c42c2959314b866b985704ea610c8a5762f
       },
     );
   }
