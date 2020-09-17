@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class UserDetailsStepper extends StatefulWidget {
   static const routeName = "userdetails";
@@ -404,117 +405,132 @@ class _UserDetailsPage3State extends State<UserDetailsPage3> {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
+  bool showSpinner;
+  @override
+  void initState() {
+    showSpinner = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Text("Select if you have or are.."),
-          FormBuilder(
-            key: _formKey,
-            child: Column(children: [
-              FormBuilderCheckboxGroup(
-                wrapSpacing: double.infinity,
-                attribute: "healthFactorList",
-                options: [
-                  FormBuilderFieldOption(
-                    child: Text("Covid-19 positive"),
-                    value: "coivd19",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Covid-19 symptoms (dry cough or fever)"),
-                    value: "covid19symptoms",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Been in contact with someone with Covid-19"),
-                    value: "covid19contact",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Asthma"),
-                    value: "asthma",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text(
-                        "Chronic kidney disease being treated with dialysis"),
-                    value: "kidney",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Chronic liver disease"),
-                    value: "liver",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Compromised immune system"),
-                    value: "immunesystem",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Serious heart condition"),
-                    value: "heart",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Chronic lung disease"),
-                    value: "lungs",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Diabetes"),
-                    value: "diabetes",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("HIV positive"),
-                    value: "hiv",
-                  ),
-                  FormBuilderFieldOption(
-                    child: Text("Other chronic illness"),
-                    value: "other",
-                  ),
-                ],
-              ),
-              FormBuilderCheckbox(
-                attribute: "details_done",
-                initialValue: false,
-                leadingInput: false,
-                label: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                          text: 'I have read and agree to the ',
-                          style: TextStyle(color: Colors.black)),
-                      TextSpan(
-                        text: 'Terms and Conditions',
-                        style: TextStyle(color: Colors.blue),
-                        // recognizer: TapGestureRecognizer()
-                        //   ..onTap = () {
-                        //     print('launch url');
-                        //   },
-                      ),
-                    ],
-                  ),
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text("Select if you have or are.."),
+            FormBuilder(
+              key: _formKey,
+              child: Column(children: [
+                FormBuilderCheckboxGroup(
+                  wrapSpacing: double.infinity,
+                  attribute: "healthFactorList",
+                  options: [
+                    FormBuilderFieldOption(
+                      child: Text("Covid-19 positive"),
+                      value: "coivd19",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Covid-19 symptoms (dry cough or fever)"),
+                      value: "covid19symptoms",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Been in contact with someone with Covid-19"),
+                      value: "covid19contact",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Asthma"),
+                      value: "asthma",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text(
+                          "Chronic kidney disease being treated with dialysis"),
+                      value: "kidney",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Chronic liver disease"),
+                      value: "liver",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Compromised immune system"),
+                      value: "immunesystem",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Serious heart condition"),
+                      value: "heart",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Chronic lung disease"),
+                      value: "lungs",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Diabetes"),
+                      value: "diabetes",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("HIV positive"),
+                      value: "hiv",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Other chronic illness"),
+                      value: "other",
+                    ),
+                  ],
                 ),
-                validators: [
-                  FormBuilderValidators.requiredTrue(
-                    errorText:
-                        'You must accept terms and conditions to continue',
+                FormBuilderCheckbox(
+                  attribute: "details_done",
+                  initialValue: false,
+                  leadingInput: false,
+                  label: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: 'I have read and agree to the ',
+                            style: TextStyle(color: Colors.black)),
+                        TextSpan(
+                          text: 'Terms and Conditions',
+                          style: TextStyle(color: Colors.blue),
+                          // recognizer: TapGestureRecognizer()
+                          //   ..onTap = () {
+                          //     print('launch url');
+                          //   },
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ]),
-          ),
-          FlatButton(
-            child: Text("Next"),
-            onPressed: () {
-              if (_formKey.currentState.saveAndValidate()) {
-                widget.addToCombinedForm(_formKey.currentState.value);
-                _firestore
-                    .collection('UserDetails')
-                    .doc(_auth.currentUser.email)
-                    .set(
-                      widget.getCombinedForm(),
-                      SetOptions(merge: true),
-                    );
-                widget.nextStepCallback();
-              }
-            },
-          )
-        ],
+                  validators: [
+                    FormBuilderValidators.requiredTrue(
+                      errorText:
+                          'You must accept terms and conditions to continue',
+                    ),
+                  ],
+                ),
+              ]),
+            ),
+            FlatButton(
+              child: Text("Next"),
+              onPressed: () {
+                if (_formKey.currentState.saveAndValidate()) {
+                  setState(() {
+                    showSpinner = true;
+                  });
+                  widget.addToCombinedForm(_formKey.currentState.value);
+                  _firestore
+                      .collection('UserDetails')
+                      .doc(_auth.currentUser.email)
+                      .set(
+                        widget.getCombinedForm(),
+                      );
+                  setState(() {
+                    showSpinner = false;
+                  });
+                  widget.nextStepCallback();
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

@@ -168,7 +168,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ),
                 onTap: () {
                   _auth.signOut();
-                  Navigator.of(context).pushNamed(SignScreen.routeName);
+                  Navigator.of(context).pushNamed(Sign.routeName);
                 },
               ),
               SizedBox(

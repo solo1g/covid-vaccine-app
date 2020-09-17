@@ -37,14 +37,14 @@ class MyApp extends StatelessWidget {
       ),
       //initialRoute: UserDetailsStepper.routeName,
       initialRoute: FirebaseAuth.instance.currentUser == null
-          ? SignScreen.routeName
+          ? Sign.routeName
           : NavigationHomeScreen.routeName,
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
         UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
-        SignScreen.routeName: (ctx) => SignScreen(),
+        Sign.routeName: (ctx) => Sign(),
       },
     );
   }
