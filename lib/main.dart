@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
+      //initialRoute: UserDetailsStepper.routeName,
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? SignScreen.routeName
           : NavigationHomeScreen.routeName,
