@@ -294,7 +294,8 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                                                     NavigationHomeScreen
                                                         .routeName);
                                           } else {
-                                            Navigator.pushNamed(context,
+                                            Navigator.pushReplacementNamed(
+                                                context,
                                                 UserDetailsStepper.routeName);
                                           }
                                         });
