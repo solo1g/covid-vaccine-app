@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidvaccineapp/screens/covid_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Text("Hello ${name}"),
+                      child: Text("Hello $name"),
                     ),
             ),
           ),
@@ -94,23 +95,27 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-            child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(60),
-                  bottomRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(60),
+          GestureDetector(
+            onTap: () =>
+                Navigator.of(context).pushNamed(CovidDetails.routeName),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              child: Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(60),
+                    bottomRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(60),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                // TODO: modifu ui elements of DailyCases class
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  // TODO: modifu ui elements of DailyCases class
 
-                child: DailyCases(),
+                  child: DailyCases(),
+                ),
               ),
             ),
           ),

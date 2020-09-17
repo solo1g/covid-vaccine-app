@@ -3,12 +3,13 @@ import 'package:covidvaccineapp/screens/UserDetails.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+
 import '../screens/navigation.dart';
 
 enum Mode { Signup, Login }
 
 class SignScreen extends StatelessWidget {
-  static const routeName = "signscreen";
+  static const routeName = "/signscreen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +18,7 @@ class SignScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('Assets/image1.jpg'),
+                image: AssetImage('Assets/image2.jpg'),
                 fit: BoxFit.fitWidth,
                 alignment: Alignment.topCenter,
               ),
@@ -316,7 +317,8 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    color: Color.fromRGBO(205, 127, 80, 10),
+                    // color: Color.fromRGBO(205, 127, 80, 10),
+                    color: Theme.of(context).accentColor,
                     elevation: 0,
                     minWidth: 400,
                     height: 50,
@@ -332,14 +334,18 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                       _mode == Mode.Login
                           ? "Don’t have an Account ? "
                           : "Already have an Account ? ",
-                      style: TextStyle(color: Color.fromRGBO(205, 127, 80, 10)),
+                      style: TextStyle(
+                        // color: Color.fromRGBO(205, 127, 80, 10),
+                        color: Theme.of(context).accentColor,
+                      ),
                     ),
                     GestureDetector(
                       onTap: _switchMode,
                       child: Text(
                         _mode == Mode.Signup ? "Sign In" : "Sign Up",
                         style: TextStyle(
-                          color: Color.fromRGBO(205, 127, 80, 10),
+                          // color: Color.fromRGBO(205, 127, 80, 10),
+                          color: Theme.of(context).accentColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

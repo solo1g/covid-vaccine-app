@@ -1,3 +1,4 @@
+import 'package:covidvaccineapp/screens/UserDetails.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/home/app_drawer.dart';
@@ -60,9 +61,9 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         setState(() {
           screenView = HomeScreen();
         });
-      } else if (drawerIndex == DrawerIndex.Invite) {
+      } else if (drawerIndex == DrawerIndex.Update) {
         setState(() {
-          screenView = HomeScreen();
+          screenView = UserDetailsStepper();
         });
       } else {
         //do in your way......

@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import './screens/Signin_up.dart';
 import './screens/navigation.dart';
 import './screens/HomeScreen.dart';
+import './screens/covid_details.dart';
+import './screens/user_profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       theme: ThemeData(
+        primaryColor: Color(0xFF473F97),
+        accentColor: Color(0xFFa37eba),
         textTheme: GoogleFonts.montserratTextTheme(
           Theme.of(context).textTheme,
         ),
@@ -38,12 +42,15 @@ class MyApp extends StatelessWidget {
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? SignScreen.routeName
           : NavigationHomeScreen.routeName,
+      // : CovidDetails.routeName,
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
         NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
         UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
         SignScreen.routeName: (ctx) => SignScreen(),
+        CovidDetails.routeName: (ctx) => CovidDetails(),
+        UserProfile.routeName: (ctx) => UserProfile(),
       },
     );
   }

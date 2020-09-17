@@ -32,6 +32,8 @@ dependencies:
   expandable:
   cloud_firestore:
   flutter_form_builder:
+  bubble_tab_indicator: ^0.1.4
+  fl_chart: ^0.11.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -50,6 +52,8 @@ flutter:
   assets:
     - Assets/image1.jpg
     - Assets/support_icon.png
+    - Assets/image2.jpg
+    - Assets/user1.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

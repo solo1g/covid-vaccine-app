@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covidvaccineapp/screens/HomeScreen.dart';
+import 'package:covidvaccineapp/screens/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
+// import './HomeScreen.dart';
+
 class UserDetailsStepper extends StatefulWidget {
-  static const routeName = "userdetails";
+  static const routeName = "/userdetails";
   static int userDetailsPagesCount = 3;
   @override
   _UserDetailsStepperState createState() => _UserDetailsStepperState();
@@ -77,7 +79,7 @@ class _UserDetailsStepperState extends State<UserDetailsStepper> {
         _currentStep++;
         activeStates[_currentStep] = true;
       } else {
-        Navigator.pushNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, NavigationHomeScreen.routeName);
       }
     });
   }
@@ -85,6 +87,15 @@ class _UserDetailsStepperState extends State<UserDetailsStepper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("User Details"),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Stepper(
           currentStep: _currentStep,
