@@ -155,7 +155,7 @@ class _TipsState extends State<Tips> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 220,
+      height: 180,
       child: Builder(
         builder: (context) => LiquidSwipe(
           enableSlideIcon: true,
