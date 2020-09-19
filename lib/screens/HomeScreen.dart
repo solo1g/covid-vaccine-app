@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import '../ui/DailyCases.dart';
+import '../widgets/home/home_cases.dart';
 import '../widgets/home/HomeScreenWidgets.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

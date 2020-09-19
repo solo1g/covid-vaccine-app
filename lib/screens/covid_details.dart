@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
-import '../widgets/home/cases_list_cards.dart';
+import '../widgets/coviddetails/cases_list_cards.dart';
+import '../api/DailyCases.dart' as dailycases;
+import '../api/statewise_case.dart' as statewisedaily;
 
 class CovidDetails extends StatefulWidget {
   static const routeName = '/covid-details';

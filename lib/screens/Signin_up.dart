@@ -80,7 +80,7 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('Assets/image1.jpg'),
+                  image: AssetImage('Assets/image2.jpg'),
                   fit: BoxFit.fitWidth,
                   alignment: Alignment.topCenter,
                 ),
