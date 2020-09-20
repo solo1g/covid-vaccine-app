@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:covidvaccineapp/screens/Signin_up.dart';
+import 'package:covidvaccineapp/screens/navigation.dart';
 import 'package:covidvaccineapp/widgets/home/tips.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
@@ -12,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _auth = FirebaseAuth.instance;
   List<Widget> pages = [
     Container(
       color: Color(0xFF473F97),
@@ -30,12 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     ),
-    Sign(),
   ];
   LiquidController _liquidController;
   @override
   void initState() {
     super.initState();
+    pages.add(
+      _auth.currentUser == null ? Sign() : NavigationHomeScreen(),
+    );
     _liquidController = LiquidController();
     startTransition();
   }
@@ -52,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //Do not change delays. High delays in dev build due to poor performance
     //on emulator. Will be changed in final build.
     Timer(Duration(milliseconds: 0), () {
-      _liquidController.animateToPage(page: 1, duration: 1600);
+      _liquidController.animateToPage(page: 1, duration: 1000);
     });
   }
 
