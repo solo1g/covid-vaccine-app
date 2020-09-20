@@ -36,6 +36,7 @@ dependencies:
   fl_chart: ^0.11.1
   modal_progress_hud:
   liquid_swipe:
+  wave:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
