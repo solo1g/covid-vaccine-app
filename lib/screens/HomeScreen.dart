@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             GestureDetector(
               onTap: () =>
-                  Navigator.of(context).pushNamed(CovidDetails.routeName),
+                  Navigator.of(context).pushNamed(CovidDetailsPage.routeName),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 child: Card(

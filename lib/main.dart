@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
         UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
         Sign.routeName: (ctx) => Sign(),
-        CovidDetails.routeName: (ctx) => CovidDetails(),
+        CovidDetailsPage.routeName: (ctx) => CovidDetailsPage(),
         UserProfile.routeName: (ctx) => UserProfile(),
       },
     );

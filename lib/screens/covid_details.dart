@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 import '../widgets/coviddetails/cases_list_cards.dart';
+import '../widgets/coviddetails/covid_chart.dart';
 
-class CovidDetails extends StatefulWidget {
+class CovidDetailsPage extends StatefulWidget {
   static const routeName = '/covid-details';
-
   @override
-  _CovidDetailsState createState() => _CovidDetailsState();
+  _CovidDetailsPageState createState() => _CovidDetailsPageState();
 }
 
-class _CovidDetailsState extends State<CovidDetails>
+class _CovidDetailsPageState extends State<CovidDetailsPage>
     with TickerProviderStateMixin {
   TabController _tabController;
 
@@ -32,50 +32,57 @@ class _CovidDetailsState extends State<CovidDetails>
       appBar: AppBar(
         centerTitle: true,
         title: Text('Details'),
-        backgroundColor: Color(0xFF473F97),
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
       ),
-      backgroundColor: Color(0xFF473F97),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'Covid Updates',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold,
+      backgroundColor: Theme.of(context).primaryColor,
+      body: CustomScrollView(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'Covid Updates',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20.0),
-            height: 50.0,
-            decoration: BoxDecoration(
-              color: Colors.white24,
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BubbleTabIndicator(
-                tabBarIndicatorSize: TabBarIndicatorSize.tab,
-                indicatorHeight: 40.0,
-                indicatorColor: Colors.white,
+          // SliverAppBar(),
+          SliverToBoxAdapter(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20.0),
+              height: 50.0,
+              decoration: BoxDecoration(
+                color: Colors.white24,
+                borderRadius: BorderRadius.circular(25.0),
               ),
-              labelStyle: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
+              child: TabBar(
+                controller: _tabController,
+                indicator: BubbleTabIndicator(
+                  tabBarIndicatorSize: TabBarIndicatorSize.tab,
+                  indicatorHeight: 40.0,
+                  indicatorColor: Colors.white,
+                ),
+                labelStyle: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.white,
+                tabs: <Widget>[
+                  Tab(child: Text('India')),
+                  Tab(child: Text('My State')),
+                ],
               ),
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.white,
-              tabs: <Widget>[
-                Tab(child: Text('India')),
-                Tab(child: Text('My State')),
-              ],
             ),
           ),
-          Expanded(
+          SliverFillRemaining(
             child: TabBarView(
               controller: _tabController,
               children: <Widget>[
@@ -120,111 +127,94 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: TabBar(
-            controller: _nestedTabController,
-            indicatorColor: Colors.transparent,
-            labelStyle: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: TabBar(
+              controller: _nestedTabController,
+              indicatorColor: Colors.transparent,
+              labelStyle: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+              ),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white60,
+              tabs: widget.location == Location.India
+                  ? <Widget>[
+                      Tab(child: Text('Total')),
+                      Tab(child: Text('Today')),
+                      Tab(child: Text('Yesterday')),
+                    ]
+                  : <Widget>[
+                      Tab(child: Text('Total')),
+                      Tab(child: Text('Today')),
+                    ],
             ),
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white60,
-            tabs: widget.location == Location.India
-                ? <Widget>[
-                    Tab(child: Text('Total')),
-                    Tab(child: Text('Today')),
-                    Tab(child: Text('Yesterday')),
-                  ]
-                : <Widget>[
-                    Tab(child: Text('Total')),
-                    Tab(child: Text('Today')),
-                  ],
           ),
         ),
-        Expanded(
-          child: TabBarView(
-            controller: _nestedTabController,
-            children: widget.location == Location.India
-                ? <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: CasesListCards(
-                            location: widget.location,
-                            date: Date.Total,
+        SliverFillRemaining(
+          child: Column(
+            children: <Widget>[
+              Flexible(
+                fit: FlexFit.loose,
+                child: TabBarView(
+                  controller: _nestedTabController,
+                  children: widget.location == Location.India
+                      ? <Widget>[
+                          Column(
+                            children: <Widget>[
+                              CasesListCards(
+                                location: widget.location,
+                                date: Date.Total,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: CasesListCards(
-                            location: widget.location,
-                            date: Date.Today,
+                          Column(
+                            children: <Widget>[
+                              CasesListCards(
+                                location: widget.location,
+                                date: Date.Today,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: CasesListCards(
-                            location: widget.location,
-                            date: Date.Yesterday,
+                          Column(
+                            children: <Widget>[
+                              CasesListCards(
+                                location: widget.location,
+                                date: Date.Yesterday,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        )
-                      ],
-                    ),
-                  ]
-                : <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: CasesListCards(
-                            location: widget.location,
-                            date: Date.Total,
+                        ]
+                      : <Widget>[
+                          Column(
+                            children: <Widget>[
+                              CasesListCards(
+                                location: widget.location,
+                                date: Date.Total,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: CasesListCards(
-                            location: widget.location,
-                            date: Date.Today,
+                          Column(
+                            children: <Widget>[
+                              CasesListCards(
+                                location: widget.location,
+                                date: Date.Today,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        )
-                      ],
-                    ),
-                  ],
+                        ],
+                ),
+              ),
+              Flexible(
+                fit: FlexFit.loose,
+                child: CovidChart(),
+              ),
+            ],
           ),
-        )
+        ),
       ],
     );
   }
