@@ -3,6 +3,7 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 import '../widgets/coviddetails/cases_list_cards.dart';
 import '../widgets/coviddetails/covid_chart.dart';
+import '../widgets/coviddetails/covid_bar_chart.dart';
 
 class CovidDetailsPage extends StatefulWidget {
   static const routeName = '/covid-details';
@@ -210,7 +211,9 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
               ),
               Flexible(
                 fit: FlexFit.loose,
-                child: CovidChart(),
+                child: widget.location == Location.India
+                    ? CovidChart()
+                    : StateBarChart(),
               ),
             ],
           ),

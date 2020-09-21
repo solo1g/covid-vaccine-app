@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
@@ -17,11 +15,6 @@ class _CovidChartState extends State<CovidChart> {
   DateFormat format = DateFormat("dd MMMM");
   List<FlSpot> datalist = [];
   DateTime currentDate;
-
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
 
   @override
   void initState() {
@@ -93,7 +86,6 @@ class _CovidChartState extends State<CovidChart> {
                       padding: const EdgeInsets.all(15.0),
                       child: LineChart(
                         covidData(datalist),
-                        swapAnimationDuration: Duration(milliseconds: 150),
                       ),
                     ),
                   ),
