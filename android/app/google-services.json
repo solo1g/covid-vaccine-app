@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "584224639783",
+    "firebase_url": "https://covid-vaccine-app.firebaseio.com",
+    "project_id": "covid-vaccine-app",
+    "storage_bucket": "covid-vaccine-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584224639783:android:41469943aa2c4f297c7702",
+        "android_client_info": {
+          "package_name": "com.covax.covidvaccineapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584224639783-egvodk5k52cb1j45opgq8mmcu2pi1khi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPb-HX4wCgJ5EBZGpqPWLFjkffkbBhvo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584224639783-egvodk5k52cb1j45opgq8mmcu2pi1khi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
