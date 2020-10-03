@@ -1,6 +1,8 @@
-import 'package:covidvaccineapp/screens/Signin_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../screens/Signin_up.dart';
+import '../../screens/user_profile.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -45,11 +47,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
         labelName: 'FeedBack',
         icon: Icon(Icons.help),
       ),
-      // DrawerList(
-      //   index: DrawerIndex.Invite,
-      //   labelName: 'Invite Friend',
-      //   icon: Icon(Icons.group),
-      // ),
+      DrawerList(
+        index: DrawerIndex.Update,
+        labelName: 'Update Details',
+        icon: Icon(Icons.update),
+      ),
       DrawerList(
         index: DrawerIndex.Share,
         labelName: 'Rate the app',
@@ -74,59 +76,64 @@ class _HomeDrawerState extends State<HomeDrawer> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.only(top: 40.0),
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  AnimatedBuilder(
-                    animation: widget.iconAnimationController,
-                    builder: (BuildContext context, Widget child) {
-                      return ScaleTransition(
-                        scale: AlwaysStoppedAnimation<double>(
-                            1.0 - (widget.iconAnimationController.value) * 0.2),
-                        child: RotationTransition(
-                          turns: AlwaysStoppedAnimation<double>(Tween<double>(
-                                      begin: 0.0, end: 24.0)
-                                  .animate(CurvedAnimation(
-                                      parent: widget.iconAnimationController,
-                                      curve: Curves.fastOutSlowIn))
-                                  .value /
-                              360),
-                          child: Container(
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.grey.withOpacity(0.6),
-                                    offset: const Offset(2.0, 4.0),
-                                    blurRadius: 8),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(60.0)),
+            child: GestureDetector(
+              onTap: () =>
+                  Navigator.of(context).pushNamed(UserProfile.routeName),
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    AnimatedBuilder(
+                      animation: widget.iconAnimationController,
+                      builder: (BuildContext context, Widget child) {
+                        return ScaleTransition(
+                          scale: AlwaysStoppedAnimation<double>(1.0 -
+                              (widget.iconAnimationController.value) * 0.2),
+                          child: RotationTransition(
+                            turns: AlwaysStoppedAnimation<double>(Tween<double>(
+                                        begin: 0.0, end: 24.0)
+                                    .animate(CurvedAnimation(
+                                        parent: widget.iconAnimationController,
+                                        curve: Curves.fastOutSlowIn))
+                                    .value /
+                                360),
+                            child: Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.6),
+                                      offset: const Offset(2.0, 4.0),
+                                      blurRadius: 8),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(60.0)),
+                                child: Image.asset('Assets/user1.jpg'),
+                              ),
                             ),
                           ),
+                        );
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, left: 4),
+                      child: Text(
+                        'Name',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey,
+                          fontSize: 18,
                         ),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 4),
-                    child: Text(
-                      'Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
-                        fontSize: 18,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -168,7 +175,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ),
                 onTap: () {
                   _auth.signOut();
-                  Navigator.of(context).pushNamed(SignScreen.routeName);
+                  Navigator.of(context).pushReplacementNamed(Sign.routeName);
                 },
               ),
               SizedBox(
@@ -209,12 +216,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           height: 24,
                           child: Image.asset(listData.imageName,
                               color: widget.screenIndex == listData.index
-                                  ? Colors.blue
+                                  ? Theme.of(context).accentColor
                                   : Colors.black87),
                         )
                       : Icon(listData.icon.icon,
                           color: widget.screenIndex == listData.index
-                              ? Colors.blue
+                              ? Theme.of(context).accentColor
                               : Colors.black87),
                   const Padding(
                     padding: EdgeInsets.all(4.0),
@@ -225,7 +232,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       color: widget.screenIndex == listData.index
-                          ? Colors.blue
+                          ? Theme.of(context).accentColor
                           : Colors.black87,
                     ),
                     textAlign: TextAlign.left,
@@ -252,7 +259,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 MediaQuery.of(context).size.width * 0.75 - 64,
                             height: 46,
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.2),
+                              color: Theme.of(context)
+                                  .accentColor
+                                  .withOpacity(0.2),
                               borderRadius: new BorderRadius.only(
                                 topLeft: Radius.circular(0),
                                 topRight: Radius.circular(28),
@@ -283,7 +292,7 @@ enum DrawerIndex {
   Help,
   Share,
   About,
-  Invite,
+  Update,
   Testing,
 }
 

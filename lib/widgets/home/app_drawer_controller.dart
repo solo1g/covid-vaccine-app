@@ -29,14 +29,11 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
   ScrollController _scrollController;
   AnimationController _iconAnimationController;
-  AnimationController _animationController;
 
   double scrolloffset = 0.0;
 
   @override
   void initState() {
-    _animationController = AnimationController(
-        duration: const Duration(milliseconds: 2000), vsync: this);
     _iconAnimationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 0));
     _iconAnimationController
@@ -115,7 +112,9 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
                       transform: Matrix4.translationValues(
                           _scrollController.offset, 0.0, 0.0),
                       child: HomeDrawer(
-                        screenIndex: DrawerIndex.HOME,
+                        screenIndex: widget.screenIndex == null
+                            ? DrawerIndex.HOME
+                            : widget.screenIndex,
                         iconAnimationController: _iconAnimationController,
                         callBackIndex: (DrawerIndex indexType) {
                           onDrawerClick();
