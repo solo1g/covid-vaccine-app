@@ -485,6 +485,14 @@ class _UserDetailsPage3State extends State<UserDetailsPage3> {
                       value: "hiv",
                     ),
                     FormBuilderFieldOption(
+                      child: Text("Health worker"),
+                      value: "healthworker",
+                    ),
+                    FormBuilderFieldOption(
+                      child: Text("Hypertension"),
+                      value: "hypertension",
+                    ),
+                    FormBuilderFieldOption(
                       child: Text("Other chronic illness"),
                       value: "other",
                     ),
