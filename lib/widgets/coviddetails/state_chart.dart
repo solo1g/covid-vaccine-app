@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-import '../../api/DailyCases.dart' as dailycases;
+import '../../models/daily_cases_model.dart' as dailycases;
 
 class StateActiveCases {
   String name;

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../screens/Signin_up.dart';
+import '../../screens/signin_up.dart';
 import '../../screens/navigation/user_profile.dart';
 
 class HomeDrawer extends StatefulWidget {

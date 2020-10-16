@@ -2,14 +2,16 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidvaccineapp/screens/covid_details.dart';
+import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:covidvaccineapp/widgets/home/tips.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/home/home_cases.dart';
-import '../widgets/home/HomeScreenWidgets.dart';
+import '../widgets/home/homescreen_widgets.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,49 +22,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool showSpinner;
-  final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-  /*
-  NO NEED TO OPTIMISE CODE. THIS IS JUST TEMPORARY AND I WILL OPTIMISE LATER.
-   */
-  Map<String, dynamic> userData = {};
-  Map<String, dynamic> userAnalysis = {};
-  @override
-  void initState() {
-    super.initState();
-    showSpinner = true;
-    fetchUserData();
-  }
-
-  Future<void> fetchUserData() async {
-    var doc = await _firestore
-        .collection("UserDetails")
-        .doc(_auth.currentUser.email)
-        .get();
-    setState(() {
-      userData = doc.data();
-      userAnalysis = getUserAnalysis(userData);
-      showSpinner = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: showSpinner,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Covid app"),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Covid app"),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async => await context.read<UserData>().updateData(),
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
           children: <Widget>[
             SizedBox(
               height: 20,
@@ -81,8 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: susceptibilityPercent("Susceptibility",
-                      userAnalysis["x"] == null ? 0.0 : userAnalysis["x"]),
+                  child: susceptibilityPercent("Susceptibility", 0.2),
                 ),
               ),
             ),
@@ -104,13 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    // TODO: modifu ui elements of DailyCases class
-
+                    // Todo: modify ui elements of DailyCases class
                     child: DailyCases(),
                   ),
                 ),
               ),
             ),
+            UserDataDisplay(),
           ],
         ),
       ),
@@ -118,9 +92,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Map<String, dynamic> getUserAnalysis(Map<String, dynamic> userData) {
-  //if you expected something better prepare to be disappointed
-  Map<String, dynamic> analysis = {};
-  analysis["x"] = min(100.0, double.parse(userData["weight"]) / 100.0);
-  return analysis;
+class UserDataDisplay extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserData>(
+      builder: (context, user, child) {
+        return Text(user.userData.toString());
+      },
+    );
+  }
 }

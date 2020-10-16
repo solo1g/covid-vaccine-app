@@ -1,15 +1,19 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:covidvaccineapp/screens/Signin_up.dart';
+import 'package:covidvaccineapp/screens/signin_up.dart';
 import 'package:covidvaccineapp/screens/navigation.dart';
+import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
+import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 class SplashScreenController extends StatefulWidget {
+  static const routeName = "/splash-screen-controller";
   @override
   _SplashScreenControllerState createState() => _SplashScreenControllerState();
 }
@@ -27,7 +31,6 @@ class _SplashScreenControllerState extends State<SplashScreenController> {
       _auth.currentUser == null ? Sign() : NavigationHomeScreen(),
     );
     _liquidController = LiquidController();
-    startTransition();
   }
 
   @override
@@ -40,13 +43,13 @@ class _SplashScreenControllerState extends State<SplashScreenController> {
   void startTransition() {
     //Do not change delays. High delays in dev build due to poor performance
     //on emulator. Will be changed in final build.
-    Timer(Duration(seconds: 2), () {
-      _liquidController.animateToPage(page: 1, duration: 3000);
-    });
+    _liquidController.animateToPage(page: 1, duration: 700);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (context.watch<UserData>().isReady && context.watch<CovidData>().isReady)
+      startTransition();
     return LiquidSwipe(
       pages: pages,
       liquidController: _liquidController,

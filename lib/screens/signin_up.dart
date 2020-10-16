@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import '../screens/navigation.dart';
-import '../screens/UserDetails.dart';
+import 'navigation.dart';
+import 'user_registration_details.dart';
 
 enum Mode { Signup, Login }
 
