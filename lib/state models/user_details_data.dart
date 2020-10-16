@@ -16,22 +16,27 @@ class UserData with ChangeNotifier {
   }
 
   Future<void> updateData() async {
-    isReady = false;
-    print("Fetching user data");
-    await _firestore
-        .collection("UserDetails")
-        .doc(_auth.currentUser.email)
-        .get()
-        .then((value) => userData = value.data())
-        .catchError((e) => throw Exception("Server failure"))
-        .timeout(Duration(seconds: 10),
-            onTimeout: () => throw Exception("No internet"))
-        .whenComplete(() {
-      userAnalysis = _getUserAnalysis(userData);
-      notifyListeners();
-      print("User data updated");
+    //todo: temporary fix. need to remove
+    try {
+      isReady = false;
+      print("Fetching user data");
+      await _firestore
+          .collection("UserDetails")
+          .doc(_auth.currentUser.email)
+          .get()
+          .then((value) => userData = value.data())
+          .catchError((e) => throw Exception("Server failure"))
+          .timeout(Duration(seconds: 10),
+              onTimeout: () => throw Exception("No internet"))
+          .whenComplete(() {
+        userAnalysis = _getUserAnalysis(userData);
+        notifyListeners();
+        print("User data updated");
+        isReady = true;
+      });
+    } catch (e) {
       isReady = true;
-    });
+    }
   }
 
   Map<String, dynamic> _getUserAnalysis(Map<String, dynamic> userData) {

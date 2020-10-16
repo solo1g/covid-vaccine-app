@@ -48,8 +48,8 @@ class _SplashScreenControllerState extends State<SplashScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    if (context.watch<UserData>().isReady && context.watch<CovidData>().isReady)
-      startTransition();
+    if ((_auth.currentUser == null || context.watch<UserData>().isReady) &&
+        context.watch<CovidData>().isReady) startTransition();
     return LiquidSwipe(
       pages: pages,
       liquidController: _liquidController,

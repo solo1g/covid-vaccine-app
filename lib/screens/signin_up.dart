@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 import 'navigation.dart';
 import 'user_registration_details.dart';
@@ -280,6 +282,8 @@ class _SignState extends State<Sign> with SingleTickerProviderStateMixin {
                                               email: _email,
                                               password: _password);
                                       if (user != null) {
+                                        //todo: temporary fix.
+                                        context.read<UserData>().updateData();
                                         _firestore
                                             .collection("UserDetails")
                                             .doc(_auth.currentUser.email)
