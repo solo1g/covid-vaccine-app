@@ -9,7 +9,7 @@ import './screens/Signin_up.dart';
 import './screens/navigation.dart';
 import './screens/HomeScreen.dart';
 import './screens/covid_details.dart';
-import './screens/user_profile.dart';
+import 'screens/navigation/user_profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: SplashScreenController(),
+      // home: NavigationHomeScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),

@@ -86,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            Tips(),
             GestureDetector(
               onTap: () =>
                   Navigator.of(context).pushNamed(CovidDetailsPage.routeName),
@@ -110,7 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Tips(),
           ],
         ),
       ),
