@@ -1,13 +1,13 @@
-import 'dart:math';
+// import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidvaccineapp/screens/covid_details.dart';
 import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:covidvaccineapp/widgets/home/tips.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+// import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/home/home_cases.dart';
