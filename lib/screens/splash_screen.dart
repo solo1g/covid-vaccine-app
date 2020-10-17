@@ -57,11 +57,12 @@ class _SplashScreenControllerState extends State<SplashScreenController> {
   bool _loaded = false;
 
   void startTransition() async {
-    Navigator.pushNamed(
+    Navigator.pushNamedAndRemoveUntil(
       context,
       _auth.currentUser == null
           ? Sign.routeName
           : NavigationHomeScreen.routeName,
+      (route) => false,
     );
   }
 
