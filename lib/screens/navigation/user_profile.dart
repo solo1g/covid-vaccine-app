@@ -191,35 +191,38 @@ class Item extends StatelessWidget {
 
 Widget getHealthText(List<dynamic> strings) {
   List<Widget> list = new List<Widget>();
-  for (var i = 0; i < strings.length; i++) {
-    if (strings[i] == 'coivd19')
-      list.add(Text('- Covid-19 Positive'));
-    else if (strings[i] == 'covid19symptoms')
-      list.add(Text('- Covid-19 symptoms (dry cough or fever)'));
-    else if (strings[i] == 'covid19contact')
-      list.add(Text('- Been in contact with someone with Covid-19'));
-    else if (strings[i] == 'asthma')
-      list.add(Text('- Asthma'));
-    else if (strings[i] == 'kidney')
-      list.add(Text('- Chronic kidney disease being treated with dialysis'));
-    else if (strings[i] == 'liver')
-      list.add(Text('- Chronic liver disease'));
-    else if (strings[i] == 'immunesystem')
-      list.add(Text('- Compromised immune system'));
-    else if (strings[i] == 'heart')
-      list.add(Text('- Serious heart condition'));
-    else if (strings[i] == 'lungs')
-      list.add(Text('- Chronic lung disease'));
-    else if (strings[i] == 'diabetes')
-      list.add(Text('- Diabetes'));
-    else if (strings[i] == 'hiv')
-      list.add(Text('- HIV positive'));
-    else if (strings[i] == 'healthworker')
-      list.add(Text('- Health worker'));
-    else if (strings[i] == 'hypertension')
-      list.add(Text('- Hypertension'));
-    else if (strings[i] == 'other') list.add(Text('- Other chronic illness'));
-  }
+  if (strings?.isEmpty ?? true)
+    list.add(Text('- No Serious Illness'));
+  else
+    for (var i = 0; i < strings.length; i++) {
+      if (strings[i] == 'coivd19')
+        list.add(Text('- Covid-19 Positive'));
+      else if (strings[i] == 'covid19symptoms')
+        list.add(Text('- Covid-19 symptoms (dry cough or fever)'));
+      else if (strings[i] == 'covid19contact')
+        list.add(Text('- Been in contact with someone with Covid-19'));
+      else if (strings[i] == 'asthma')
+        list.add(Text('- Asthma'));
+      else if (strings[i] == 'kidney')
+        list.add(Text('- Chronic kidney disease being treated with dialysis'));
+      else if (strings[i] == 'liver')
+        list.add(Text('- Chronic liver disease'));
+      else if (strings[i] == 'immunesystem')
+        list.add(Text('- Compromised immune system'));
+      else if (strings[i] == 'heart')
+        list.add(Text('- Serious heart condition'));
+      else if (strings[i] == 'lungs')
+        list.add(Text('- Chronic lung disease'));
+      else if (strings[i] == 'diabetes')
+        list.add(Text('- Diabetes'));
+      else if (strings[i] == 'hiv')
+        list.add(Text('- HIV positive'));
+      else if (strings[i] == 'healthworker')
+        list.add(Text('- Health worker'));
+      else if (strings[i] == 'hypertension')
+        list.add(Text('- Hypertension'));
+      else if (strings[i] == 'other') list.add(Text('- Other chronic illness'));
+    }
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: list,
