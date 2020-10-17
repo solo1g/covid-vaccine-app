@@ -332,9 +332,9 @@ class _TipsState extends State<Tips> {
       child: Stack(
         children: [
           LiquidSwipe(
+            ignoreUserGestureWhileAnimating: true,
             liquidController: _liquidController,
             pages: pages,
-            ignoreUserGestureWhileAnimating: true,
             onPageChangeCallback: (page) {
               setState(() {
                 curPage = page;

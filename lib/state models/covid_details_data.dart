@@ -18,8 +18,8 @@ class CovidData with ChangeNotifier {
     if (response.statusCode == 200) {
       DailyCaseDataModel.fromJson(json.decode(response.body));
       print("Updated covid Data");
-      notifyListeners();
       isReady = true;
+      notifyListeners();
     } else {
       throw Exception('No internet.');
     }

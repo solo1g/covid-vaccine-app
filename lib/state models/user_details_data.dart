@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 
 class UserData with ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   Map<String, dynamic> userData;
   Map<String, dynamic> userAnalysis;
+  Position userLocation;
   bool isReady;
 
   UserData() {
@@ -17,25 +19,38 @@ class UserData with ChangeNotifier {
 
   Future<void> updateData() async {
     //todo: temporary fix. need to remove
-    try {
-      isReady = false;
-      print("Fetching user data");
-      await _firestore
-          .collection("UserDetails")
-          .doc(_auth.currentUser.email)
-          .get()
-          .then((value) => userData = value.data())
-          .catchError((e) => throw Exception("Server failure"))
-          .timeout(Duration(seconds: 10),
-              onTimeout: () => throw Exception("No internet"))
-          .whenComplete(() {
-        userAnalysis = _getUserAnalysis(userData);
-        notifyListeners();
-        print("User data updated");
-        isReady = true;
-      });
-    } catch (e) {
+    isReady = false;
+    print("Fetching user data");
+    await _firestore
+        .collection("UserDetails")
+        .doc(_auth.currentUser.email)
+        .get()
+        .then((value) => userData = value.data())
+        .catchError((e) => throw Exception("Server failure"))
+        .timeout(Duration(seconds: 10),
+            onTimeout: () => throw Exception("No internet"))
+        .whenComplete(() async {
+      userAnalysis = _getUserAnalysis(userData);
+      notifyListeners();
+      //Todo: merge location parameter in userData itself
+      print("User data updated");
+      await updateLocation();
       isReady = true;
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateLocation() async {
+    print("Fetching location");
+    try {
+      userLocation =
+          await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      print("Location found as ${userLocation.toString()}");
+    } catch (e) {
+      print(e.toString());
+      print("Using default location");
+      userLocation =
+          Position(latitude: 37.43296265331129, longitude: -122.08832357078792);
     }
   }
 

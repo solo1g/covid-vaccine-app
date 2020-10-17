@@ -12,60 +12,67 @@ import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
+// class SplashScreenController extends StatefulWidget {
+//   static const routeName = "/splash-screen-controller";
+//   @override
+//   _SplashScreenControllerState createState() => _SplashScreenControllerState();
+// }
+
+// class _SplashScreenControllerState extends State<SplashScreenController> {
+//   final _auth = FirebaseAuth.instance;
+
+//   // @override
+//   // void didChangeDependencies() {
+//   //   super.didChangeDependencies();
+//   //   //To improve performance on dev builds. May not be required on release build.
+//   //   precacheImage(AssetImage("Assets/image2.jpg"), context);
+//   // }
+
+//   void startTransition() {
+//     //Do not change delays. High delays in dev build due to poor performance
+//     //on emulator. Will be changed in final build.
+//     Navigator.pushNamedAndRemoveUntil(
+//         context,
+//         _auth.currentUser == null
+//             ? Sign.routeName
+//             : NavigationHomeScreen.routeName,
+//         (route) => false);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     if ((_auth.currentUser == null || context.watch<UserData>().isReady) &&
+//         context.watch<CovidData>().isReady) startTransition();
+//   }
+// }
+
 class SplashScreenController extends StatefulWidget {
-  static const routeName = "/splash-screen-controller";
+  static const routeName = "/splash-screen";
   @override
   _SplashScreenControllerState createState() => _SplashScreenControllerState();
 }
 
 class _SplashScreenControllerState extends State<SplashScreenController> {
   final _auth = FirebaseAuth.instance;
-  List<Widget> pages = [
-    SplashScreen(),
-  ];
-  LiquidController _liquidController;
-  @override
-  void initState() {
-    super.initState();
-    pages.add(
-      _auth.currentUser == null ? Sign() : NavigationHomeScreen(),
+  bool _loaded = false;
+
+  void startTransition() async {
+    Navigator.pushNamed(
+      context,
+      _auth.currentUser == null
+          ? Sign.routeName
+          : NavigationHomeScreen.routeName,
     );
-    _liquidController = LiquidController();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    //To improve performance on dev builds. May not be required on release build.
-    precacheImage(AssetImage("Assets/image2.jpg"), context);
-  }
-
-  void startTransition() {
-    //Do not change delays. High delays in dev build due to poor performance
-    //on emulator. Will be changed in final build.
-    _liquidController.animateToPage(page: 1, duration: 700);
   }
 
   @override
   Widget build(BuildContext context) {
-    if ((_auth.currentUser == null || context.watch<UserData>().isReady) &&
-        context.watch<CovidData>().isReady) startTransition();
-    return LiquidSwipe(
-      pages: pages,
-      liquidController: _liquidController,
-      disableUserGesture: true,
-    );
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  Widget build(BuildContext context) {
+    //Todo: this is quite a contraption for a simple task. Fix this.
+    _loaded = context.watch<CovidData>().isReady &&
+        (_auth.currentUser == null || context.watch<UserData>().isReady);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_loaded) startTransition();
+    });
     return Stack(
       children: [
         Column(

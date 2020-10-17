@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +8,8 @@ import 'package:covidvaccineapp/widgets/home/tips.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: () async => await context.read<UserData>().updateData(),
         child: ListView(
+          //Todo: remove individual padding and use padding of list view
           physics: const AlwaysScrollableScrollPhysics(),
           children: <Widget>[
             SizedBox(
@@ -84,7 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            UserDataDisplay(),
+            // UserDataDisplay(),
+            Map(),
           ],
         ),
       ),
@@ -92,13 +97,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class UserDataDisplay extends StatelessWidget {
+// class UserDataDisplay extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<UserData>(
+//       builder: (context, user, child) {
+//         return Text(user.userData.toString());
+//       },
+//     );
+//   }
+// }
+
+class Map extends StatefulWidget {
+  @override
+  _MapState createState() => _MapState();
+}
+
+class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserData>(
-      builder: (context, user, child) {
-        return Text(user.userData.toString());
-      },
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
+        height: 200,
+        width: double.infinity,
+        child: Card(
+          elevation: 5,
+          child: GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(context.watch<UserData>().userLocation.latitude,
+                  context.watch<UserData>().userLocation.longitude),
+              zoom: 18,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
