@@ -15,6 +15,8 @@ import 'screens/homescreen.dart';
 import './screens/covid_details.dart';
 import 'screens/navigation/user_profile.dart';
 
+//Todo: manage api keys better
+final apiKey = "AIzaSyCPb-HX4wCgJ5EBZGpqPWLFjkffkbBhvo4";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

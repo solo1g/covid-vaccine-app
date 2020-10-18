@@ -3,7 +3,12 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_webservice/places.dart' as P;
 import 'package:location/location.dart';
+
+import '../main.dart';
+
+//Todo: change name P to something better
 
 class UserData with ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
@@ -11,6 +16,10 @@ class UserData with ChangeNotifier {
   Map<String, dynamic> userData;
   Map<String, dynamic> userAnalysis;
   LocationData userLocation;
+  P.GoogleMapsPlaces _places = P.GoogleMapsPlaces(apiKey: apiKey);
+  P.PlacesSearchResponse nearbyHospitals;
+  int rank;
+  int daysToVaccine;
   bool isReady;
 
   UserData() {
@@ -30,11 +39,14 @@ class UserData with ChangeNotifier {
         .timeout(Duration(seconds: 10),
             onTimeout: () => throw Exception("No internet"))
         .whenComplete(() async {
-      userAnalysis = _getUserAnalysis(userData);
+      userAnalysis = getUserAnalysis(userData);
       notifyListeners();
       //Todo: merge location parameter in userData itself
       print("User data updated");
       await updateLocation();
+      await updateNearbyHospitals();
+      await syncRank();
+      updateDaysToVaccine();
       isReady = true;
       notifyListeners();
     });
@@ -43,8 +55,7 @@ class UserData with ChangeNotifier {
   Future<void> updateLocation() async {
     print("Fetching location");
     try {
-      Location location = new Location();
-
+      Location location = Location();
       bool _serviceEnabled;
       PermissionStatus _permissionGranted;
 
@@ -55,7 +66,6 @@ class UserData with ChangeNotifier {
           return;
         }
       }
-
       _permissionGranted = await location.hasPermission();
       if (_permissionGranted == PermissionStatus.denied) {
         _permissionGranted = await location.requestPermission();
@@ -63,7 +73,6 @@ class UserData with ChangeNotifier {
           return;
         }
       }
-
       userLocation = await location.getLocation();
       print("Location found as ${userLocation.toString()}");
     } catch (e) {
@@ -77,7 +86,47 @@ class UserData with ChangeNotifier {
     }
   }
 
-  Map<String, dynamic> _getUserAnalysis(Map<String, dynamic> userData) {
+  void updateDaysToVaccine() {
+    print("Updating days to get vaccine");
+    // No vaccine made. What can I do?
+  }
+
+  Future<void> updateNearbyHospitals() async {
+    try {
+      print("Print fetching hostpitals");
+      nearbyHospitals = await _places.searchNearbyWithRankBy(
+          new P.Location(31.0424, 42.421), "distance",
+          type: "hospital");
+      print("Hospitals fetched");
+    } catch (e) {
+      print("Error in getting hospitals. ${e.toString()}");
+    }
+  }
+
+  Future<void> syncRank() async {
+    //Todo: Refactor it. This should not be done how it is done here but the code is all messed up.
+    try {
+      print("Updating rank");
+      await _firestore
+          .collection("UserDetails")
+          .doc(_auth.currentUser.email)
+          .set(
+              {"sortVal": userAnalysis["riskFactor"]}, SetOptions(merge: true));
+      var query = _firestore
+          .collection("UserDetails")
+          .where("sortVal", isLessThan: userAnalysis["riskFactor"]);
+      //Todo: this fetched ALL documents. Again not the most optimal way. Fix later or idc.
+      await query.get().then((value) {
+        rank = 1 + value.docs.length;
+      });
+      print("Rank updated. Rank is $rank");
+    } catch (e) {
+      print("Cannot get rank. Assigning 42. ${e.toString()}");
+      rank = 42;
+    }
+  }
+
+  static Map<String, dynamic> getUserAnalysis(Map<String, dynamic> userData) {
     //if you expected something better prepare to be disappointed
     Map<String, dynamic> analysis = {};
     double rv = 1.0, weight, height, bmi;

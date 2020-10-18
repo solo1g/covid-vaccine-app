@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+//Todo: some widgets are made here some in home screen widgets file. Move all there.
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            RankAndDays(),
             Tips(),
             GestureDetector(
               onTap: () =>

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:provider/provider.dart';
 
 class Tips extends StatefulWidget {
   @override
@@ -297,32 +298,37 @@ class _TipsState extends State<Tips> {
   int curPage = 0;
   bool reverse = false;
   LiquidController _liquidController;
+  Timer _timer;
   @override
   void initState() {
     super.initState();
+    _timer = Timer.periodic(Duration(seconds: 7), changePage);
     _liquidController = LiquidController();
-    startTimer();
   }
 
-  void startTimer() {
-    Timer.periodic(Duration(seconds: 7), (timer) {
-      setState(() {
-        if (!reverse) {
-          curPage++;
-          if (curPage == pages.length) {
-            reverse = true;
-            curPage -= 2;
-          }
-        } else {
-          curPage--;
-          if (curPage == -1) {
-            reverse = false;
-            curPage += 2;
-          }
+  void changePage(timer) {
+    setState(() {
+      if (!reverse) {
+        curPage++;
+        if (curPage == pages.length) {
+          reverse = true;
+          curPage -= 2;
         }
-        _liquidController.animateToPage(page: curPage, duration: 600);
-      });
+      } else {
+        curPage--;
+        if (curPage == -1) {
+          reverse = false;
+          curPage += 2;
+        }
+      }
+      _liquidController.animateToPage(page: curPage, duration: 600);
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
