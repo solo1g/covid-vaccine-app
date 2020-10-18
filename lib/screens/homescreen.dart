@@ -1,5 +1,6 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:covidvaccineapp/screens/covid_details.dart';
+import 'package:covidvaccineapp/screens/google_map_screen.dart';
 import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:covidvaccineapp/widgets/home/tips.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -129,6 +130,8 @@ class _MapState extends State<Map> {
                   context.watch<UserData>().userLocation.longitude),
               zoom: 18,
             ),
+            onTap: (_) =>
+                Navigator.pushNamed(context, GoogleMapScreen.routeName),
           ),
         ),
       ),

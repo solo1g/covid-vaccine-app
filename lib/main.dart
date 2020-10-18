@@ -1,3 +1,4 @@
+import 'package:covidvaccineapp/screens/google_map_screen.dart';
 import 'package:covidvaccineapp/screens/user_registration_details.dart';
 import 'package:covidvaccineapp/screens/splash_screen.dart';
 import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
@@ -66,6 +67,7 @@ class App extends StatelessWidget {
         CovidDetailsPage.routeName: (ctx) => CovidDetailsPage(),
         UserProfile.routeName: (ctx) => UserProfile(),
         SplashScreenController.routeName: (ctx) => SplashScreenController(),
+        GoogleMapScreen.routeName: (ctx) => GoogleMapScreen(),
       },
     );
   }
