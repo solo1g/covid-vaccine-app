@@ -1,68 +1,79 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:covidvaccineapp/screens/Signin_up.dart';
+import 'package:covidvaccineapp/screens/signin_up.dart';
 import 'package:covidvaccineapp/screens/navigation.dart';
+import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
+import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
+// class SplashScreenController extends StatefulWidget {
+//   static const routeName = "/splash-screen-controller";
+//   @override
+//   _SplashScreenControllerState createState() => _SplashScreenControllerState();
+// }
+
+// class _SplashScreenControllerState extends State<SplashScreenController> {
+//   final _auth = FirebaseAuth.instance;
+
+//   // @override
+//   // void didChangeDependencies() {
+//   //   super.didChangeDependencies();
+//   //   //To improve performance on dev builds. May not be required on release build.
+//   //   precacheImage(AssetImage("Assets/image2.jpg"), context);
+//   // }
+
+//   void startTransition() {
+//     //Do not change delays. High delays in dev build due to poor performance
+//     //on emulator. Will be changed in final build.
+//     Navigator.pushNamedAndRemoveUntil(
+//         context,
+//         _auth.currentUser == null
+//             ? Sign.routeName
+//             : NavigationHomeScreen.routeName,
+//         (route) => false);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     if ((_auth.currentUser == null || context.watch<UserData>().isReady) &&
+//         context.watch<CovidData>().isReady) startTransition();
+//   }
+// }
+
 class SplashScreenController extends StatefulWidget {
+  static const routeName = "/splash-screen";
   @override
   _SplashScreenControllerState createState() => _SplashScreenControllerState();
 }
 
 class _SplashScreenControllerState extends State<SplashScreenController> {
   final _auth = FirebaseAuth.instance;
-  List<Widget> pages = [
-    SplashScreen(),
-  ];
-  LiquidController _liquidController;
-  @override
-  void initState() {
-    super.initState();
-    pages.add(
-      _auth.currentUser == null ? Sign() : NavigationHomeScreen(),
+  bool _loaded = false;
+
+  void startTransition() async {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      _auth.currentUser == null
+          ? Sign.routeName
+          : NavigationHomeScreen.routeName,
+      (route) => false,
     );
-    _liquidController = LiquidController();
-    startTransition();
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    //To improve performance on dev builds. May not be required on release build.
-    precacheImage(AssetImage("Assets/image2.jpg"), context);
-  }
-
-  void startTransition() {
-    //Do not change delays. High delays in dev build due to poor performance
-    //on emulator. Will be changed in final build.
-    Timer(Duration(seconds: 2), () {
-      _liquidController.animateToPage(page: 1, duration: 3000);
+  Widget build(BuildContext context) {
+    //Todo: this is quite a contraption for a simple task. Fix this.
+    _loaded = context.watch<CovidData>().isReady &&
+        (_auth.currentUser == null || context.watch<UserData>().isReady);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_loaded) startTransition();
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LiquidSwipe(
-      pages: pages,
-      liquidController: _liquidController,
-      disableUserGesture: true,
-    );
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  Widget build(BuildContext context) {
     return Stack(
       children: [
         Column(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 import '../widgets/coviddetails/cases_list_cards.dart';
-import '../widgets/coviddetails/covid_chart.dart';
-import '../widgets/coviddetails/covid_bar_chart.dart';
+import '../widgets/coviddetails/national_chart.dart';
+import '../widgets/coviddetails/state_chart.dart';
 
 class CovidDetailsPage extends StatefulWidget {
   static const routeName = '/covid-details';

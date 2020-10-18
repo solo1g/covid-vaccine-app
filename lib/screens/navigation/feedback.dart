@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-class UserProfile extends StatelessWidget {
-  static const routeName = '/user-profile';
-
+class Feedbackform extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Feedback'),
         centerTitle: true,
-        title: Text('User Peofile'),
       ),
       body: Center(
-        child: Text('In progress'),
+        child: Text('feedback foem'),
       ),
     );
   }

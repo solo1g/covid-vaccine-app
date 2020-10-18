@@ -1,26 +1,46 @@
-import 'package:covidvaccineapp/screens/UserDetails.dart';
+import 'package:covidvaccineapp/screens/google_map_screen.dart';
+import 'package:covidvaccineapp/screens/user_registration_details.dart';
 import 'package:covidvaccineapp/screens/splash_screen.dart';
+import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
+import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-import './screens/Signin_up.dart';
+import 'screens/signin_up.dart';
 import './screens/navigation.dart';
-import './screens/HomeScreen.dart';
+import 'screens/homescreen.dart';
 import './screens/covid_details.dart';
-import './screens/user_profile.dart';
+import 'screens/navigation/user_profile.dart';
 
+//Todo: manage api keys better
+final apiKey = "AIzaSyCPb-HX4wCgJ5EBZGpqPWLFjkffkbBhvo4";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
-  ]).then((_) => runApp(MyApp()));
+  ]).then(
+    (_) => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => CovidData(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => UserData(),
+          ),
+        ],
+        child: App(),
+      ),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -39,7 +59,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: SplashScreenController(),
+      initialRoute: SplashScreenController.routeName,
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (ctx) => HomeScreen(),
@@ -48,6 +68,8 @@ class MyApp extends StatelessWidget {
         Sign.routeName: (ctx) => Sign(),
         CovidDetailsPage.routeName: (ctx) => CovidDetailsPage(),
         UserProfile.routeName: (ctx) => UserProfile(),
+        SplashScreenController.routeName: (ctx) => SplashScreenController(),
+        GoogleMapScreen.routeName: (ctx) => GoogleMapScreen(),
       },
     );
   }

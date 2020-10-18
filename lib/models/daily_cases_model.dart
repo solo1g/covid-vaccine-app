@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
-import '../models/case_time_series.dart';
-import '../models/statewise.dart';
-import '../models/tested.dart';
+import 'case_time_series.dart';
+import 'statewise.dart';
+import 'tested.dart';
 
 class DailyCaseDataModel {
   List<CasesTimeSeries> casesTimeSeries;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../api/DailyCases.dart' as dailycases;
+import '../../models/daily_cases_model.dart' as dailycases;
 
 enum Location {
   India,
