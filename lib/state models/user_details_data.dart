@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class UserData with ChangeNotifier {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   Map<String, dynamic> userData;
   Map<String, dynamic> userAnalysis;
-  Position userLocation;
+  LocationData userLocation;
   bool isReady;
 
   UserData() {
@@ -43,14 +43,37 @@ class UserData with ChangeNotifier {
   Future<void> updateLocation() async {
     print("Fetching location");
     try {
-      userLocation =
-          await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      Location location = new Location();
+
+      bool _serviceEnabled;
+      PermissionStatus _permissionGranted;
+
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          return;
+        }
+      }
+
+      _permissionGranted = await location.hasPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        _permissionGranted = await location.requestPermission();
+        if (_permissionGranted != PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      userLocation = await location.getLocation();
       print("Location found as ${userLocation.toString()}");
     } catch (e) {
       print(e.toString());
       print("Using default location");
-      userLocation =
-          Position(latitude: 37.43296265331129, longitude: -122.08832357078792);
+      final defaultMap = {
+        "latitude": 37.43296265331129,
+        "longitude": -122.08832357078792
+      };
+      userLocation = LocationData.fromMap(defaultMap);
     }
   }
 
