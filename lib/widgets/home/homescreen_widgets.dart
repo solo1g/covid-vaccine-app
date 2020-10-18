@@ -29,7 +29,7 @@ Widget susceptibilityPercent(String title, double percent) {
               animation: true,
               percent: percent,
               center: Text(
-                (percent * 100).toString(),
+                (percent * 100).toStringAsFixed(2),
                 style: new TextStyle(
                   fontSize: 25.0,
                 ),

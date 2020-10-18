@@ -56,7 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: susceptibilityPercent("Susceptibility", 0.2),
+                  child: susceptibilityPercent(
+                    "Susceptibility",
+                    context.watch<UserData>().userAnalysis["riskFactorClamped"],
+                  ),
                 ),
               ),
             ),
