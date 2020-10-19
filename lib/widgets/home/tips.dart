@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class Tips extends StatefulWidget {
   @override
