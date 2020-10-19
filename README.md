@@ -1,5 +1,3 @@
-# Covid Vaccine Distribution App
+# covidvaccineapp
 
-This is demo of an idea for efficient distriution of Covid-19 vaccines.
-
-### Screens
+Covid vaccine distribution app.
