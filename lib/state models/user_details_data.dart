@@ -114,9 +114,12 @@ class UserData with ChangeNotifier {
               {"sortVal": userAnalysis["riskFactor"]}, SetOptions(merge: true));
       var query = _firestore
           .collection("UserDetails")
-          .where("sortVal", isLessThan: userAnalysis["riskFactor"]);
+          .where("sortVal", isGreaterThan: userAnalysis["riskFactor"]);
       //Todo: this fetched ALL documents. Again not the most optimal way. Fix later or idc.
       await query.get().then((value) {
+        value.docs.forEach((element) {
+          print(element.data());
+        });
         rank = 1 + value.docs.length;
       });
       print("Rank updated. Rank is $rank");
