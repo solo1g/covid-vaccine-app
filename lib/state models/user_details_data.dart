@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geocoding/geocoding.dart' as G;
 import 'package:google_maps_webservice/places.dart' as P;
 import 'package:location/location.dart';
 
@@ -18,6 +19,7 @@ class UserData with ChangeNotifier {
   LocationData userLocation;
   P.GoogleMapsPlaces _places = P.GoogleMapsPlaces(apiKey: apiKey);
   P.PlacesSearchResponse nearbyHospitals;
+  G.Placemark userPlacemark;
   int rank;
   int daysToVaccine;
   bool isReady;
@@ -44,12 +46,27 @@ class UserData with ChangeNotifier {
       //Todo: merge location parameter in userData itself
       print("User data updated");
       await updateLocation();
+      await geodecodeLocation();
       await updateNearbyHospitals();
       await syncRank();
       updateDaysToVaccine();
       isReady = true;
       notifyListeners();
     });
+  }
+
+  Future<void> geodecodeLocation() async {
+    try {
+      print("Decoding Location");
+      await G
+          .placemarkFromCoordinates(
+              userLocation.latitude, userLocation.longitude)
+          .then((value) => userPlacemark = value.first);
+      print(userPlacemark);
+      print("Location decoded");
+    } catch (e) {
+      print("Error in decoding. ${e.toString()}");
+    }
   }
 
   Future<void> updateLocation() async {
