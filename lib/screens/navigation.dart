@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/home/app_drawer.dart';
-import 'homescreen.dart';
+import './homescreen.dart';
 import '../widgets/home/app_drawer_controller.dart';
-import 'user_registration_details.dart';
+import './user_registration_details.dart';
 import './navigation/helpscreen.dart';
 import './navigation/feedback.dart';
 import './navigation/rateapp.dart';

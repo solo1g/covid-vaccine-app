@@ -1,10 +1,10 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/signin_up.dart';
 import '../../screens/navigation/user_profile.dart';
+import '../../state_models/user_details_data.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(

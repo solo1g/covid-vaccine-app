@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/coviddetails/cases_list_cards.dart';
 import '../widgets/coviddetails/national_chart.dart';
 import '../widgets/coviddetails/state_chart.dart';
+import '../state_models/user_details_data.dart';
+// import '../state_models/covid_details_data.dart';
 
 class CovidDetailsPage extends StatefulWidget {
   static const routeName = '/covid-details';
@@ -78,7 +81,12 @@ class _CovidDetailsPageState extends State<CovidDetailsPage>
                 unselectedLabelColor: Colors.white,
                 tabs: <Widget>[
                   Tab(child: Text('India')),
-                  Tab(child: Text('My State')),
+                  Tab(
+                      child: Text(context
+                          .watch<UserData>()
+                          .userPlacemark
+                          .administrativeArea
+                          .toString())),
                 ],
               ),
             ),
@@ -169,6 +177,11 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
                               CasesListCards(
                                 location: widget.location,
                                 date: Date.Total,
+                                state: context
+                                    .watch<UserData>()
+                                    .userPlacemark
+                                    .administrativeArea
+                                    .toString(),
                               ),
                             ],
                           ),
@@ -177,6 +190,11 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
                               CasesListCards(
                                 location: widget.location,
                                 date: Date.Today,
+                                state: context
+                                    .watch<UserData>()
+                                    .userPlacemark
+                                    .administrativeArea
+                                    .toString(),
                               ),
                             ],
                           ),
@@ -185,6 +203,11 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
                               CasesListCards(
                                 location: widget.location,
                                 date: Date.Yesterday,
+                                state: context
+                                    .watch<UserData>()
+                                    .userPlacemark
+                                    .administrativeArea
+                                    .toString(),
                               ),
                             ],
                           ),
@@ -195,6 +218,11 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
                               CasesListCards(
                                 location: widget.location,
                                 date: Date.Total,
+                                state: context
+                                    .watch<UserData>()
+                                    .userPlacemark
+                                    .administrativeArea
+                                    .toString(),
                               ),
                             ],
                           ),
@@ -203,6 +231,11 @@ class _NestedTabState extends State<NestedTab> with TickerProviderStateMixin {
                               CasesListCards(
                                 location: widget.location,
                                 date: Date.Today,
+                                state: context
+                                    .watch<UserData>()
+                                    .userPlacemark
+                                    .administrativeArea
+                                    .toString(),
                               ),
                             ],
                           ),

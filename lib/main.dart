@@ -1,19 +1,19 @@
-import 'package:covidvaccineapp/screens/google_map_screen.dart';
-import 'package:covidvaccineapp/screens/user_registration_details.dart';
-import 'package:covidvaccineapp/screens/splash_screen.dart';
-import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/signin_up.dart';
+import './screens/signin_up.dart';
 import './screens/navigation.dart';
-import 'screens/homescreen.dart';
+import './screens/homescreen.dart';
 import './screens/covid_details.dart';
-import 'screens/navigation/user_profile.dart';
+import './screens/navigation/user_profile.dart';
+import './screens/google_map_screen.dart';
+import './screens/user_registration_details.dart';
+import './screens/splash_screen.dart';
+import './state_models/covid_details_data.dart';
+import './state_models/user_details_data.dart';
 
 //Todo: manage api keys better
 final apiKey = "AIzaSyCPb-HX4wCgJ5EBZGpqPWLFjkffkbBhvo4";

@@ -1,7 +1,8 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../state_models/user_details_data.dart';
 
 class UserProfile extends StatelessWidget {
   static const routeName = '/user-profile';
@@ -127,6 +128,17 @@ class UserProfile extends StatelessWidget {
                       height: 7,
                     ),
                     Text(
+                      'Address :',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(user.userPlacemark.toString()),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Text(
                       'List of Health Conditions :',
                       style: TextStyle(
                         fontSize: 15,
@@ -165,7 +177,7 @@ class Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
@@ -176,7 +188,7 @@ class Item extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 2.0,
+          width: 5.0,
         ),
         Text(
           body,
