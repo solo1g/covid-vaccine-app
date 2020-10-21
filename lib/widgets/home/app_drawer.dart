@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 import '../../screens/signin_up.dart';
 import '../../screens/navigation/user_profile.dart';
@@ -203,7 +204,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
         onTap: () {
-          navigationtoScreen(listData.index);
+          if (listData.index == DrawerIndex.Share) {
+            print("Share");
+            share(context);
+          } else {
+            navigationtoScreen(listData.index);
+          }
         },
         child: Stack(
           children: <Widget>[
@@ -282,7 +288,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       );
                     },
                   )
-                : const SizedBox()
+                : const SizedBox(),
           ],
         ),
       ),
@@ -291,6 +297,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
   Future<void> navigationtoScreen(DrawerIndex indexScreen) async {
     widget.callBackIndex(indexScreen);
+  }
+
+  share(BuildContext context) {
+    final RenderBox box = context.findRenderObject();
+
+    Share.share(
+        "To get vaccinated against COVID19 registration on the Covid-vaccine is required. Please download and share this app using the link : ",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 }
 

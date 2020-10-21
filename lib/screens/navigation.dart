@@ -6,7 +6,7 @@ import '../widgets/home/app_drawer_controller.dart';
 import './user_registration_details.dart';
 import './navigation/helpscreen.dart';
 import './navigation/feedback.dart';
-import './navigation/rateapp.dart';
+// import './navigation/rateapp.dart';
 import './navigation/aboutus.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -73,11 +73,11 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           setState(() {
             screenView = UserDetailsStepper();
           });
-      } else if (drawerIndex == DrawerIndex.Share) {
-        if (mounted)
-          setState(() {
-            screenView = Rateapp();
-          });
+        // } else if (drawerIndex == DrawerIndex.Share) {
+        //   if (mounted)
+        //     setState(() {
+        //       screenView = Rateapp();
+        //     });
       } else if (drawerIndex == DrawerIndex.About) {
         if (mounted)
           setState(() {
