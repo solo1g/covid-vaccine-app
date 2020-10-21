@@ -5,7 +5,7 @@ import './homescreen.dart';
 import '../widgets/home/app_drawer_controller.dart';
 import './user_registration_details.dart';
 import './navigation/helpscreen.dart';
-import './navigation/feedback.dart';
+// import './navigation/feedback.dart';
 // import './navigation/rateapp.dart';
 import './navigation/aboutus.dart';
 
@@ -63,11 +63,11 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
           setState(() {
             screenView = Help();
           });
-      } else if (drawerIndex == DrawerIndex.FeedBack) {
-        if (mounted)
-          setState(() {
-            screenView = Feedbackform();
-          });
+        // } else if (drawerIndex == DrawerIndex.FeedBack) {
+        //   if (mounted)
+        //     setState(() {
+        //       screenView = Feedbackform();
+        //     });
       } else if (drawerIndex == DrawerIndex.Update) {
         if (mounted)
           setState(() {

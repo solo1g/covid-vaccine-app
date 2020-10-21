@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:wiredash/wiredash.dart';
 
 import './screens/signin_up.dart';
 import './screens/navigation.dart';
@@ -41,6 +42,8 @@ void main() async {
 }
 
 class App extends StatelessWidget {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -51,26 +54,32 @@ class App extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
 
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color(0xFF473F97),
-        accentColor: Color(0xFFa37eba),
-        textTheme: GoogleFonts.montserratTextTheme(
-          Theme.of(context).textTheme,
+    return Wiredash(
+      projectId: 'covid_vaccine_app-0qt45po',
+      secret: 'gtzsqnk352hq2exoh1e1cgz0wxa1u13p',
+      navigatorKey: _navigatorKey,
+      child: MaterialApp(
+        navigatorKey: _navigatorKey,
+        theme: ThemeData(
+          primaryColor: Color(0xFF473F97),
+          accentColor: Color(0xFFa37eba),
+          textTheme: GoogleFonts.montserratTextTheme(
+            Theme.of(context).textTheme,
+          ),
         ),
+        initialRoute: SplashScreenController.routeName,
+        debugShowCheckedModeBanner: false,
+        routes: {
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
+          UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
+          Sign.routeName: (ctx) => Sign(),
+          CovidDetailsPage.routeName: (ctx) => CovidDetailsPage(),
+          UserProfile.routeName: (ctx) => UserProfile(),
+          SplashScreenController.routeName: (ctx) => SplashScreenController(),
+          GoogleMapScreen.routeName: (ctx) => GoogleMapScreen(),
+        },
       ),
-      initialRoute: SplashScreenController.routeName,
-      debugShowCheckedModeBanner: false,
-      routes: {
-        HomeScreen.routeName: (ctx) => HomeScreen(),
-        NavigationHomeScreen.routeName: (ctx) => NavigationHomeScreen(),
-        UserDetailsStepper.routeName: (ctx) => UserDetailsStepper(),
-        Sign.routeName: (ctx) => Sign(),
-        CovidDetailsPage.routeName: (ctx) => CovidDetailsPage(),
-        UserProfile.routeName: (ctx) => UserProfile(),
-        SplashScreenController.routeName: (ctx) => SplashScreenController(),
-        GoogleMapScreen.routeName: (ctx) => GoogleMapScreen(),
-      },
     );
   }
 }

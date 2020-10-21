@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:wiredash/wiredash.dart';
 
 import '../../screens/signin_up.dart';
 import '../../screens/navigation/user_profile.dart';
@@ -207,6 +208,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
           if (listData.index == DrawerIndex.Share) {
             print("Share");
             share(context);
+          } else if (listData.index == DrawerIndex.FeedBack) {
+            print("Feedback");
+            Wiredash.of(context).show();
           } else {
             navigationtoScreen(listData.index);
           }
