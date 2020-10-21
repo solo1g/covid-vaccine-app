@@ -13,6 +13,11 @@ class UserProfile extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('User Profile'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
       ),
       body: Consumer<UserData>(
         builder: (context, user, child) {
