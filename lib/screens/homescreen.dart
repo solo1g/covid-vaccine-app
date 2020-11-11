@@ -9,6 +9,7 @@ import './covid_details.dart';
 import './google_map_screen.dart';
 import '../state_models/user_details_data.dart';
 import '../widgets/home/tips.dart';
+import './something/dontopen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -66,6 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
             GestureDetector(
               onTap: () =>
                   Navigator.of(context).pushNamed(CovidDetailsPage.routeName),
+              onLongPress: () => Navigator.of(context)
+                  .pushReplacementNamed(DontRead.routeName),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 child: Card(

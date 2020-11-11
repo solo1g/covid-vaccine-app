@@ -15,6 +15,7 @@ import './screens/user_registration_details.dart';
 import './screens/splash_screen.dart';
 import './state_models/covid_details_data.dart';
 import './state_models/user_details_data.dart';
+import './screens/something/dontopen.dart';
 
 //Todo: manage api keys better
 final apiKey = "AIzaSyCPb-HX4wCgJ5EBZGpqPWLFjkffkbBhvo4";
@@ -78,6 +79,7 @@ class App extends StatelessWidget {
           UserProfile.routeName: (ctx) => UserProfile(),
           SplashScreenController.routeName: (ctx) => SplashScreenController(),
           GoogleMapScreen.routeName: (ctx) => GoogleMapScreen(),
+          DontRead.routeName: (ctx) => DontRead(),
         },
       ),
     );
