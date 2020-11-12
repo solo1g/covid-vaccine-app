@@ -1,16 +1,16 @@
-// import 'dart:async';
 import 'dart:math';
-import 'package:covidvaccineapp/screens/signin_up.dart';
-import 'package:covidvaccineapp/screens/navigation.dart';
-import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-// import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+
+import './signin_up.dart';
+import './navigation.dart';
+import '../state_models/covid_details_data.dart';
+import '../state_models/user_details_data.dart';
 
 // class SplashScreenController extends StatefulWidget {
 //   static const routeName = "/splash-screen-controller";

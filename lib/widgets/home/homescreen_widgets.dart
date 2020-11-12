@@ -1,6 +1,4 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:expandable/expandable.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+
+import '../../state_models/user_details_data.dart';
 
 Widget susceptibilityPercent(String title, double percent) {
   return Theme(

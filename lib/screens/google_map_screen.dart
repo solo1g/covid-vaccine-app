@@ -1,8 +1,9 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
+
+import '../state_models/user_details_data.dart';
 
 class GoogleMapScreen extends StatefulWidget {
   static const routeName = "/map";

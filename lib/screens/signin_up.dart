@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -8,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'navigation.dart';
 import 'user_registration_details.dart';
+import '../state_models/user_details_data.dart';
 
 enum Mode { Signup, Login }
 
