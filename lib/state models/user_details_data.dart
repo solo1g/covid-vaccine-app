@@ -110,9 +110,9 @@ class UserData with ChangeNotifier {
 
   Future<void> updateNearbyHospitals() async {
     try {
-      print("Print fetching hostpitals");
+      print("Fetching hostpitals");
       nearbyHospitals = await _places.searchNearbyWithRankBy(
-          new P.Location(31.0424, 42.421), "distance",
+          P.Location(userLocation.latitude, userLocation.longitude), "distance",
           type: "hospital");
       print("Hospitals fetched");
     } catch (e) {
