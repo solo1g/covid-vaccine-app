@@ -1,11 +1,32 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
 
-class AboutUs extends StatelessWidget {
+class AboutUs extends StatefulWidget {
+  @override
+  _AboutUsState createState() => _AboutUsState();
+}
+
+class _AboutUsState extends State<AboutUs> {
+  final assetsAudioPlayer = AssetsAudioPlayer();
+  @override
+  void initState() {
+    super.initState();
+    assetsAudioPlayer.open(
+      Audio("Assets/about_music.mp3"),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    assetsAudioPlayer.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +35,7 @@ class AboutUs extends StatelessWidget {
         centerTitle: true,
         title: Text(
           "About Us",
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(fontSize: 18),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -135,24 +156,27 @@ class AboutUs extends StatelessWidget {
                           backgroundColor: Theme.of(context).primaryColor,
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('Assets/p1.png'),
+                            backgroundImage: AssetImage('Assets/p1.gif'),
                           ),
                         ),
                         SizedBox(width: 8),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Shreyansh",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                            Text(
-                              '"Kya hi likhoon?"',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
+                        Flexible(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Shreyansh",
+                                style: TextStyle(fontSize: 22),
                               ),
-                            ),
-                          ],
+                              Text(
+                                '"Kya hi likhoon?"',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -178,24 +202,27 @@ class AboutUs extends StatelessWidget {
                           backgroundColor: Theme.of(context).primaryColor,
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('Assets/p2.jpg'),
+                            backgroundImage: AssetImage('Assets/p2.gif'),
                           ),
                         ),
                         SizedBox(width: 8),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Saumay",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                            Text(
-                              '"Pro gamer"',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Saumay",
+                                style: TextStyle(fontSize: 22),
                               ),
-                            ),
-                          ],
+                              Text(
+                                '"Pro gamer"',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -221,24 +248,27 @@ class AboutUs extends StatelessWidget {
                           backgroundColor: Theme.of(context).primaryColor,
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('Assets/p3.jpg'),
+                            backgroundImage: AssetImage('Assets/p3.gif'),
                           ),
                         ),
                         SizedBox(width: 8),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Saumya",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                            Text(
-                              '"Sbko mai app install krwaunga"',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
+                        Flexible(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Saumya",
+                                style: TextStyle(fontSize: 22),
                               ),
-                            ),
-                          ],
+                              Text(
+                                '"Sbko mai app install krwaunga"',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -268,20 +298,23 @@ class AboutUs extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 8),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Satya",
-                              style: TextStyle(fontSize: 22),
-                            ),
-                            Text(
-                              '"Yeh app best hai."',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Satya",
+                                style: TextStyle(fontSize: 22),
                               ),
-                            ),
-                          ],
+                              Text(
+                                '"Yeh app best hai."',
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
