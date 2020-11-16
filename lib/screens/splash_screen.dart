@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -121,6 +122,31 @@ class _SplashScreenControllerState extends State<SplashScreenController> {
               ),
             ),
           ],
+        ),
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                color: Colors.black.withOpacity(0.5)),
+            height: 200,
+            width: 200,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0,
+                ),
+                child: Image.asset(
+                  'Assets/app_logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

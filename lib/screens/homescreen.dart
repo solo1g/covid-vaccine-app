@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Covid app"),
+        title: Text("Covify"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
@@ -159,6 +159,8 @@ class _MapState extends State<Map> {
           elevation: 5,
           child: GoogleMap(
             mapType: MapType.normal,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(
               target: LatLng(context.watch<UserData>().userLocation.latitude,
                   context.watch<UserData>().userLocation.longitude),
