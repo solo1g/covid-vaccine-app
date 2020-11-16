@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:covidvaccineapp/screens/something/reallyreallydontopen.dart';
 import 'package:flutter/material.dart';
 
 import '../app_constants.dart';
@@ -12,6 +13,8 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
+  int _tapCount = 0;
+  bool _again = false;
   final assetsAudioPlayer = AssetsAudioPlayer();
   @override
   void initState() {
@@ -24,7 +27,19 @@ class _AboutUsState extends State<AboutUs> {
   @override
   void dispose() {
     super.dispose();
+    assetsAudioPlayer.stop();
     assetsAudioPlayer.dispose();
+  }
+
+  void _unravel() {
+    _tapCount++;
+    if (_tapCount == 13) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => ButWhy(_again)))
+          .then((value) {
+        _tapCount = 0;
+        _again = true;
+      });
+    }
   }
 
   @override
@@ -105,27 +120,30 @@ class _AboutUsState extends State<AboutUs> {
             ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(),
+                GestureDetector(
+                  onTap: () => _unravel(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        color: Colors.black.withOpacity(0.5)),
+                    height: 200,
+                    width: 200,
+                    child: ClipRRect(
                       borderRadius: BorderRadius.all(
                         Radius.circular(20),
                       ),
-                      color: Colors.black.withOpacity(0.5)),
-                  height: 200,
-                  width: 200,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 5.0,
-                        sigmaY: 5.0,
-                      ),
-                      child: Image.asset(
-                        'Assets/app_logo.png',
-                        fit: BoxFit.contain,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaX: 5.0,
+                          sigmaY: 5.0,
+                        ),
+                        child: Image.asset(
+                          'Assets/app_logo.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
@@ -294,7 +312,7 @@ class _AboutUsState extends State<AboutUs> {
                           backgroundColor: Theme.of(context).primaryColor,
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: AssetImage('Assets/p4.jpg'),
+                            backgroundImage: AssetImage('Assets/p4.gif'),
                           ),
                         ),
                         SizedBox(width: 8),
@@ -308,7 +326,7 @@ class _AboutUsState extends State<AboutUs> {
                                 style: TextStyle(fontSize: 22),
                               ),
                               Text(
-                                '"Yeh app best hai."',
+                                '"Yeh app best hai. Ab paisa hi paisa."',
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                 ),
