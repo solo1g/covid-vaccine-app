@@ -35,11 +35,11 @@ class _DontReadState extends State<DontRead>
       end: const Offset(2.7, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.linear,
+      curve: Curves.ease,
     ));
     _rotateAnimation = CurvedAnimation(
       parent: _controller,
-      curve: Curves.linear,
+      curve: Curves.ease,
     );
     assetsAudioPlayer.open(
       Audio("Assets/audio2.mp3"),
