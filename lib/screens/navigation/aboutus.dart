@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
+// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:covidvaccineapp/screens/something/reallyreallydontopen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,20 +15,20 @@ class AboutUs extends StatefulWidget {
 class _AboutUsState extends State<AboutUs> {
   int _tapCount = 0;
   bool _again = false;
-  final assetsAudioPlayer = AssetsAudioPlayer();
+  // final assetsAudioPlayer = AssetsAudioPlayer();
   @override
   void initState() {
     super.initState();
-    assetsAudioPlayer.open(
-      Audio("Assets/about_music.mp3"),
-    );
+    // assetsAudioPlayer.open(
+    //   Audio("Assets/about_music.mp3"),
+    // );
   }
 
   @override
   void dispose() {
     super.dispose();
-    assetsAudioPlayer.stop();
-    assetsAudioPlayer.dispose();
+    // assetsAudioPlayer.stop();
+    // assetsAudioPlayer.dispose();
   }
 
   void _unravel() {

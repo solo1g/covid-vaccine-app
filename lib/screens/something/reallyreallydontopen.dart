@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ButWhy extends StatefulWidget {
-  bool again;
+  final bool again;
   ButWhy(this.again);
   @override
   _ButWhyState createState() => _ButWhyState();
