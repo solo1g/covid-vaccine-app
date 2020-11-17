@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/home/app_drawer.dart';
-import 'homescreen.dart';
+import './homescreen.dart';
 import '../widgets/home/app_drawer_controller.dart';
-import 'user_registration_details.dart';
+import './user_registration_details.dart';
 import './navigation/helpscreen.dart';
-import './navigation/feedback.dart';
-import './navigation/rateapp.dart';
+// import './navigation/feedback.dart';
+// import './navigation/rateapp.dart';
 import './navigation/aboutus.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -54,29 +54,35 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
     if (drawerIndex != drawerIndexdata) {
       drawerIndex = drawerIndexdata;
       if (drawerIndex == DrawerIndex.HOME) {
-        setState(() {
-          screenView = HomeScreen();
-        });
+        if (mounted)
+          setState(() {
+            screenView = HomeScreen();
+          });
       } else if (drawerIndex == DrawerIndex.Help) {
-        setState(() {
-          screenView = Help();
-        });
-      } else if (drawerIndex == DrawerIndex.FeedBack) {
-        setState(() {
-          screenView = Feedbackform();
-        });
+        if (mounted)
+          setState(() {
+            screenView = Help();
+          });
+        // } else if (drawerIndex == DrawerIndex.FeedBack) {
+        //   if (mounted)
+        //     setState(() {
+        //       screenView = Feedbackform();
+        //     });
       } else if (drawerIndex == DrawerIndex.Update) {
-        setState(() {
-          screenView = UserDetailsStepper();
-        });
-      } else if (drawerIndex == DrawerIndex.Share) {
-        setState(() {
-          screenView = Rateapp();
-        });
+        if (mounted)
+          setState(() {
+            screenView = UserDetailsStepper();
+          });
+        // } else if (drawerIndex == DrawerIndex.Share) {
+        //   if (mounted)
+        //     setState(() {
+        //       screenView = Rateapp();
+        //     });
       } else if (drawerIndex == DrawerIndex.About) {
-        setState(() {
-          screenView = AboutUs();
-        });
+        if (mounted)
+          setState(() {
+            screenView = AboutUs();
+          });
       } else {
         //do in your way......
       }

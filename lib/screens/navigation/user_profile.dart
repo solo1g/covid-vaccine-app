@@ -1,7 +1,8 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../state_models/user_details_data.dart';
 
 class UserProfile extends StatelessWidget {
   static const routeName = '/user-profile';
@@ -12,6 +13,11 @@ class UserProfile extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('User Profile'),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
       ),
       body: Consumer<UserData>(
         builder: (context, user, child) {
@@ -127,9 +133,67 @@ class UserProfile extends StatelessWidget {
                       height: 7,
                     ),
                     Text(
+                      'Address :',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    // Text(context.watch<UserData>().userPlacemark.toString()),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          SubItem(
+                            "Sublocality :",
+                            context
+                                .watch<UserData>()
+                                .userPlacemark
+                                .subLocality
+                                .toString(),
+                          ),
+                          SubItem(
+                            "District :",
+                            context
+                                .watch<UserData>()
+                                .userPlacemark
+                                .subAdministrativeArea
+                                .toString(),
+                          ),
+                          SubItem(
+                            "State :",
+                            context
+                                .watch<UserData>()
+                                .userPlacemark
+                                .administrativeArea
+                                .toString(),
+                          ),
+                          SubItem(
+                            "Country :",
+                            context
+                                .watch<UserData>()
+                                .userPlacemark
+                                .country
+                                .toString(),
+                          ),
+                          SubItem(
+                            "Postal Code :",
+                            context
+                                .watch<UserData>()
+                                .userPlacemark
+                                .postalCode
+                                .toString(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    Text(
                       'List of Health Conditions :',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -165,8 +229,39 @@ class Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          head,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(
+          width: 5.0,
+        ),
+        Text(
+          body,
+          style: TextStyle(
+            fontSize: 21,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SubItem extends StatelessWidget {
+  final String head;
+  final String body;
+
+  SubItem(this.head, this.body);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
       children: <Widget>[
         Text(
           head,
@@ -176,7 +271,7 @@ class Item extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 2.0,
+          width: 5.0,
         ),
         Text(
           body,

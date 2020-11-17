@@ -1,16 +1,17 @@
-import 'dart:async';
 import 'dart:math';
-import 'package:covidvaccineapp/screens/signin_up.dart';
-import 'package:covidvaccineapp/screens/navigation.dart';
-import 'package:covidvaccineapp/state%20models/covid_details_data.dart';
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:provider/provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+
+import './signin_up.dart';
+import './navigation.dart';
+import '../state_models/covid_details_data.dart';
+import '../state_models/user_details_data.dart';
 
 // class SplashScreenController extends StatefulWidget {
 //   static const routeName = "/splash-screen-controller";
@@ -121,6 +122,31 @@ class _SplashScreenControllerState extends State<SplashScreenController> {
               ),
             ),
           ],
+        ),
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                color: Colors.black.withOpacity(0.5)),
+            height: 200,
+            width: 200,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 5.0,
+                  sigmaY: 5.0,
+                ),
+                child: Image.asset(
+                  'Assets/app_logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );

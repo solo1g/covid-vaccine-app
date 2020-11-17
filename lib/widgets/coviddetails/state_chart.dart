@@ -1,20 +1,14 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/daily_cases_model.dart' as dailycases;
+import '../../state_models/covid_details_data.dart';
 
 class StateActiveCases {
   String name;
   int active;
 
   StateActiveCases({this.name, this.active});
-
-  // @override
-  // String toString() {
-  //   return '{ ${this.name}, ${this.active} }';
-  // }
 }
 
 class StateBarChart extends StatefulWidget {
@@ -23,74 +17,70 @@ class StateBarChart extends StatefulWidget {
 }
 
 class _StateBarChartState extends State<StateBarChart> {
-  Future<dailycases.DailyCaseDataModel> futureStateData;
   List<StateActiveCases> stateActive = [];
 
   @override
-  void initState() {
-    futureStateData = dailycases.fetchCaseData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dailycases.DailyCaseDataModel>(
-      future: futureStateData,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          snapshot.data.statewise.forEach((element) {
-            stateActive.add(StateActiveCases(
-                name: element.statecode, active: int.parse(element.active)));
-          });
-          stateActive.sort((a, b) => a.active.compareTo(b.active));
-          // print(stateActive.toString());
-          stateActive = stateActive.reversed.toList().sublist(1, 8);
-          // print(stateActive[1].toString());
+    if (context.watch<CovidData>().isReady) {
+      context.watch<CovidData>().covidData.statewise.forEach((element) {
+        stateActive.add(StateActiveCases(
+            name: element.statecode, active: int.parse(element.active)));
+      });
+      stateActive.sort((a, b) => a.active.compareTo(b.active));
+      // print(stateActive.toString());
+      stateActive = stateActive.reversed.toList().sublist(1, 8);
+      // print(stateActive[1].toString());
 
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(20.0),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Most active cases',
+                style: const TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Most active cases',
-                    style: const TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+                  child: BarChart(
+                    stateData(stateActive),
                   ),
                 ),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 15.0, left: 15.0),
-                      child: BarChart(
-                        stateData(stateActive),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error has occured!');
-        }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+          ],
+        ),
+      );
+    } else if (!context.watch<CovidData>().isReady) {
+      return Center(
+        child: Text(
+          "Loading...",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
   }
 }
 

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geocoding/geocoding.dart' as G;
 import 'package:google_maps_webservice/places.dart' as P;
 import 'package:location/location.dart';
 
@@ -18,6 +19,7 @@ class UserData with ChangeNotifier {
   LocationData userLocation;
   P.GoogleMapsPlaces _places = P.GoogleMapsPlaces(apiKey: apiKey);
   P.PlacesSearchResponse nearbyHospitals;
+  G.Placemark userPlacemark;
   int rank;
   int daysToVaccine;
   bool isReady;
@@ -44,12 +46,27 @@ class UserData with ChangeNotifier {
       //Todo: merge location parameter in userData itself
       print("User data updated");
       await updateLocation();
+      await geodecodeLocation();
       await updateNearbyHospitals();
       await syncRank();
       updateDaysToVaccine();
       isReady = true;
       notifyListeners();
     });
+  }
+
+  Future<void> geodecodeLocation() async {
+    try {
+      print("Decoding Location");
+      await G
+          .placemarkFromCoordinates(
+              userLocation.latitude, userLocation.longitude)
+          .then((value) => userPlacemark = value.first);
+      print(userPlacemark);
+      print("Location decoded");
+    } catch (e) {
+      print("Error in decoding. ${e.toString()}");
+    }
   }
 
   Future<void> updateLocation() async {
@@ -93,9 +110,9 @@ class UserData with ChangeNotifier {
 
   Future<void> updateNearbyHospitals() async {
     try {
-      print("Print fetching hostpitals");
+      print("Fetching hostpitals");
       nearbyHospitals = await _places.searchNearbyWithRankBy(
-          new P.Location(31.0424, 42.421), "distance",
+          P.Location(userLocation.latitude, userLocation.longitude), "distance",
           type: "hospital");
       print("Hospitals fetched");
     } catch (e) {
@@ -114,9 +131,12 @@ class UserData with ChangeNotifier {
               {"sortVal": userAnalysis["riskFactor"]}, SetOptions(merge: true));
       var query = _firestore
           .collection("UserDetails")
-          .where("sortVal", isLessThan: userAnalysis["riskFactor"]);
+          .where("sortVal", isGreaterThan: userAnalysis["riskFactor"]);
       //Todo: this fetched ALL documents. Again not the most optimal way. Fix later or idc.
       await query.get().then((value) {
+        value.docs.forEach((element) {
+          print(element.data());
+        });
         rank = 1 + value.docs.length;
       });
       print("Rank updated. Rank is $rank");

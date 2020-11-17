@@ -1,10 +1,12 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+import 'package:wiredash/wiredash.dart';
 
 import '../../screens/signin_up.dart';
 import '../../screens/navigation/user_profile.dart';
+import '../../state_models/user_details_data.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer(
@@ -56,7 +58,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerList(
         index: DrawerIndex.Share,
-        labelName: 'Rate the app',
+        labelName: 'Share the app',
         icon: Icon(Icons.share),
       ),
       DrawerList(
@@ -203,7 +205,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
         splashColor: Colors.grey.withOpacity(0.1),
         highlightColor: Colors.transparent,
         onTap: () {
-          navigationtoScreen(listData.index);
+          if (listData.index == DrawerIndex.Share) {
+            print("Share");
+            share(context);
+          } else if (listData.index == DrawerIndex.FeedBack) {
+            print("Feedback");
+            Wiredash.of(context).show();
+          } else {
+            navigationtoScreen(listData.index);
+          }
         },
         child: Stack(
           children: <Widget>[
@@ -282,7 +292,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       );
                     },
                   )
-                : const SizedBox()
+                : const SizedBox(),
           ],
         ),
       ),
@@ -291,6 +301,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
   Future<void> navigationtoScreen(DrawerIndex indexScreen) async {
     widget.callBackIndex(indexScreen);
+  }
+
+  share(BuildContext context) {
+    final RenderBox box = context.findRenderObject();
+
+    Share.share(
+        "To get vaccinated against COVID19 registration on the Covid-vaccine is required. Please download and share this app using the link : ",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 }
 

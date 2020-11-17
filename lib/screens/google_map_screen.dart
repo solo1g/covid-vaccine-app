@@ -1,31 +1,38 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
+import '../state_models/user_details_data.dart';
+
 class GoogleMapScreen extends StatefulWidget {
   static const routeName = "/map";
-
   @override
   _GoogleMapScreenState createState() => _GoogleMapScreenState();
 }
 
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
   PlacesSearchResponse hospitals;
+  Set<Marker> markers = {};
   @override
   void initState() {
     hospitals = context.read<UserData>().nearbyHospitals;
-    f();
+    getMarkers();
     super.initState();
   }
 
-  // Does not work now and there is nothing wrong with code :)
-  void f() {
+  void getMarkers() {
     print("Showing places. Length is ${hospitals.results.length}");
     List<PlacesSearchResult> placesList = hospitals.results;
     for (final place in placesList) {
       print(place.name);
+      markers.add(
+        Marker(
+          markerId: MarkerId(place.id),
+          position:
+              LatLng(place.geometry.location.lat, place.geometry.location.lng),
+        ),
+      );
     }
   }
 
@@ -33,6 +40,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
+        markers: markers,
         myLocationEnabled: true,
         myLocationButtonEnabled: false,
         mapType: MapType.normal,

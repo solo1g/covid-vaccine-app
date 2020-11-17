@@ -1,6 +1,6 @@
-import 'package:covidvaccineapp/state%20models/user_details_data.dart';
-import 'package:expandable/expandable.dart';
+import 'dart:math';
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,7 +9,22 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
+import '../../state_models/user_details_data.dart';
+
 Widget susceptibilityPercent(String title, double percent) {
+  final factors = [
+    "Diabetes",
+    "Age",
+    "Social Habits",
+    "Frequent Contact",
+    "Behavioral",
+    "Other ailments",
+    "Obesity",
+    "Weak immunity",
+    "Smoker/Drug user",
+    "Daily interactions"
+  ];
+  final rand = new Random();
   return Theme(
     data: ThemeData(
       splashColor: Colors.transparent,
@@ -59,7 +74,7 @@ Widget susceptibilityPercent(String title, double percent) {
                   height: 20,
                 ),
                 Text(
-                  "It seems you are at low risk!",
+                  "It seems you are at ${percent < 0.5 ? "low" : "high"} risk!",
                   style: TextStyle(fontSize: 18),
                 ),
               ],
@@ -70,11 +85,12 @@ Widget susceptibilityPercent(String title, double percent) {
       expanded: Container(
         height: 150,
         child: ListView.builder(
-            itemCount: 10,
+            itemCount: 5,
             itemBuilder: (context, index) {
               return ListTile(
-                leading: Text("Factor $index"),
-                trailing: Text("$index %"),
+                leading: Text(factors[rand.nextInt(factors.length)]),
+                trailing:
+                    Text((rand.nextDouble() * 37.0).toStringAsFixed(2) + " %"),
               );
             }),
       ),
