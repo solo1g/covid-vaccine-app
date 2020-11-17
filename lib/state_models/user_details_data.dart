@@ -149,10 +149,11 @@ class UserData with ChangeNotifier {
   static Map<String, dynamic> getUserAnalysis(Map<String, dynamic> userData) {
     //if you expected something better prepare to be disappointed
     Map<String, dynamic> analysis = {};
-    double rv = 1.0, weight, height, bmi;
+    double rv = 1.0, weight, height, bmi, temp;
     double age =
         DateTime.now().difference(userData["birthdate"].toDate()).inDays /
             365.0;
+    temp = rv;
     if (age < 40)
       rv = rv * 0.07;
     else if (age < 50)
@@ -165,9 +166,11 @@ class UserData with ChangeNotifier {
       rv = rv * 4.77;
     else
       rv = rv * 12.64;
+    double age_f = rv - temp;
     weight = double.parse(userData["weight"]);
     height = double.parse(userData["height"]);
     bmi = weight / (height * height) * 10000;
+    temp = rv;
     if (bmi < 30)
       rv = rv;
     else if (bmi < 35)
@@ -176,18 +179,55 @@ class UserData with ChangeNotifier {
       rv = rv * 1.56;
     else
       rv = rv * 2.27;
+    double bmi_f = rv - temp;
+    temp = rv;
     if (userData['gender'] == "Male") rv = rv * 1.99;
-
+    double gender_f = rv - temp;
+    temp = rv;
     //disease
     if (userData["asthma"] == true) rv = rv * 1.11;
+    double asthma_f = rv - temp;
+    temp = rv;
     if (userData["kidney"] == true) rv = rv * 1.72;
+    double kidney_f = rv - temp;
+    temp = rv;
     if (userData["immunesystem"] == true) rv = rv * 1.67;
+    double immunesystem_f = rv - temp;
+    temp = rv;
     if (userData["heart"] == true) rv = rv * 1.27;
+    double heart_f = rv - temp;
+    temp = rv;
     if (userData["diabetes"] == true) rv = rv * 1.87;
+    double diabetes_f = rv - temp;
+    temp = rv;
     if (userData["hypertension"] == true) rv = rv * 0.95;
+    double hypertension_f = rv - temp;
+    temp = rv;
     if (userData["liver"] == true) rv = rv * 1.61;
+    double liver_f = rv - temp;
+    temp = rv;
     //return rv;s
-
+    temp = rv - 1;
+    age_f /= temp;
+    bmi_f /= temp;
+    gender_f /= temp;
+    asthma_f /= temp;
+    kidney_f /= temp;
+    heart_f /= temp;
+    immunesystem_f /= temp;
+    diabetes_f /= temp;
+    hypertension_f /= temp;
+    liver_f /= temp;
+    analysis["age"] = age_f;
+    analysis["bmi"] = bmi_f;
+    analysis["gender"] = gender_f;
+    analysis["asthma"] = asthma_f;
+    analysis["heart"] = heart_f;
+    analysis["kidney"] = kidney_f;
+    analysis["immune system"] = immunesystem_f;
+    analysis["hypertension"] = hypertension_f;
+    analysis["diabetes"] = diabetes_f;
+    analysis["asthma"] = asthma_f;
     analysis["riskFactor"] = rv;
     print('The value of the risk factor is: $rv');
     analysis["riskFactorClamped"] = tan(rv * pi / 2);
