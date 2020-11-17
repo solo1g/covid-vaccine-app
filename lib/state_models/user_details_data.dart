@@ -17,7 +17,8 @@ class UserData with ChangeNotifier {
   Map<String, dynamic> userData;
   Map<String, dynamic> userAnalysis;
   LocationData userLocation;
-  P.GoogleMapsPlaces _places = P.GoogleMapsPlaces(apiKey: apiKey);
+  P.GoogleMapsPlaces _places =
+      P.GoogleMapsPlaces(apiKey: "AIzaSyCCZM1amtgpElcXCqyOOkYKz5deQsminak");
   P.PlacesSearchResponse nearbyHospitals;
   G.Placemark userPlacemark;
   int rank;
@@ -218,16 +219,29 @@ class UserData with ChangeNotifier {
     diabetes_f /= temp;
     hypertension_f /= temp;
     liver_f /= temp;
+    List<List<dynamic>> sortedFactors = [];
     analysis["age"] = age_f;
+    sortedFactors.add(["Age", age_f]);
     analysis["bmi"] = bmi_f;
+    sortedFactors.add(["BMI", bmi_f]);
     analysis["gender"] = gender_f;
+    sortedFactors.add(["Gender", gender_f]);
     analysis["asthma"] = asthma_f;
+    sortedFactors.add(["Asthma", asthma_f]);
     analysis["heart"] = heart_f;
+    sortedFactors.add(["Heart", heart_f]);
     analysis["kidney"] = kidney_f;
+    sortedFactors.add(["Kidney", kidney_f]);
     analysis["immune system"] = immunesystem_f;
+    sortedFactors.add(["Immune System", immunesystem_f]);
     analysis["hypertension"] = hypertension_f;
+    sortedFactors.add(["Hypertension", hypertension_f]);
     analysis["diabetes"] = diabetes_f;
+    sortedFactors.add(["Diabetes", diabetes_f]);
     analysis["asthma"] = asthma_f;
+    sortedFactors.add(["Asthma", asthma_f]);
+    sortedFactors.sort((a, b) => b[1].compareTo(a[1]));
+    analysis["sorted"] = sortedFactors;
     analysis["riskFactor"] = rv;
     print('The value of the risk factor is: $rv');
     analysis["riskFactorClamped"] = tan(rv * pi / 2);
@@ -237,6 +251,7 @@ class UserData with ChangeNotifier {
           "riskFactorClamped value out of range. Value if ${analysis["riskFactorClamped"]}. Assigning 0.2");
       analysis["riskFactorClamped"] = 0.2;
     }
+    print(analysis);
     return analysis;
   }
 }

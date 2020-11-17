@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:covidvaccineapp/state_models/user_details_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 import './navigation.dart';
 
@@ -24,6 +26,7 @@ class _UserDetailsStepperState extends State<UserDetailsStepper> {
   String userEmail;
   List<bool> activeStates;
   Map<String, dynamic> combinedForm = {};
+  bool _showSpinner = false;
   @override
   void initState() {
     // userEmail = _auth.currentUser.email;
@@ -96,41 +99,51 @@ class _UserDetailsStepperState extends State<UserDetailsStepper> {
         _currentStep++;
         activeStates[_currentStep] = true;
       } else {
-        Navigator.pushReplacementNamed(context, NavigationHomeScreen.routeName);
+        fetchData();
       }
     });
   }
 
+  Future<void> fetchData() async {
+    _showSpinner = true;
+    await context.read<UserData>().updateData();
+    _showSpinner = false;
+    Navigator.pushReplacementNamed(context, NavigationHomeScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("User Details"),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+    return ModalProgressHUD(
+      inAsyncCall: _showSpinner,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("User Details"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: Stepper(
-          currentStep: _currentStep,
-          controlsBuilder: (BuildContext context,
-              {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-            return Row(
-              children: <Widget>[
-                Container(
-                  child: null,
-                ),
-                Container(
-                  child: null,
-                ),
-              ],
-            );
-          },
-          type: StepperType.horizontal,
-          steps: _getSteps(),
+        body: SafeArea(
+          child: Stepper(
+            currentStep: _currentStep,
+            controlsBuilder: (BuildContext context,
+                {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+              return Row(
+                children: <Widget>[
+                  Container(
+                    child: null,
+                  ),
+                  Container(
+                    child: null,
+                  ),
+                ],
+              );
+            },
+            type: StepperType.horizontal,
+            steps: _getSteps(),
+          ),
         ),
       ),
     );
