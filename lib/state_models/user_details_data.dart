@@ -17,7 +17,8 @@ class UserData with ChangeNotifier {
   Map<String, dynamic> userData;
   Map<String, dynamic> userAnalysis;
   LocationData userLocation;
-  P.GoogleMapsPlaces _places = P.GoogleMapsPlaces(apiKey: apiKey);
+  P.GoogleMapsPlaces _places =
+      P.GoogleMapsPlaces(apiKey: "AIzaSyCCZM1amtgpElcXCqyOOkYKz5deQsminak");
   P.PlacesSearchResponse nearbyHospitals;
   G.Placemark userPlacemark;
   int rank;
@@ -149,10 +150,11 @@ class UserData with ChangeNotifier {
   static Map<String, dynamic> getUserAnalysis(Map<String, dynamic> userData) {
     //if you expected something better prepare to be disappointed
     Map<String, dynamic> analysis = {};
-    double rv = 1.0, weight, height, bmi;
+    double rv = 1.0, weight, height, bmi, temp;
     double age =
         DateTime.now().difference(userData["birthdate"].toDate()).inDays /
             365.0;
+    temp = rv;
     if (age < 40)
       rv = rv * 0.07;
     else if (age < 50)
@@ -165,9 +167,11 @@ class UserData with ChangeNotifier {
       rv = rv * 4.77;
     else
       rv = rv * 12.64;
+    double age_f = rv - temp;
     weight = double.parse(userData["weight"]);
     height = double.parse(userData["height"]);
     bmi = weight / (height * height) * 10000;
+    temp = rv;
     if (bmi < 30)
       rv = rv;
     else if (bmi < 35)
@@ -176,18 +180,68 @@ class UserData with ChangeNotifier {
       rv = rv * 1.56;
     else
       rv = rv * 2.27;
+    double bmi_f = rv - temp;
+    temp = rv;
     if (userData['gender'] == "Male") rv = rv * 1.99;
-
+    double gender_f = rv - temp;
+    temp = rv;
     //disease
     if (userData["asthma"] == true) rv = rv * 1.11;
+    double asthma_f = rv - temp;
+    temp = rv;
     if (userData["kidney"] == true) rv = rv * 1.72;
+    double kidney_f = rv - temp;
+    temp = rv;
     if (userData["immunesystem"] == true) rv = rv * 1.67;
+    double immunesystem_f = rv - temp;
+    temp = rv;
     if (userData["heart"] == true) rv = rv * 1.27;
+    double heart_f = rv - temp;
+    temp = rv;
     if (userData["diabetes"] == true) rv = rv * 1.87;
+    double diabetes_f = rv - temp;
+    temp = rv;
     if (userData["hypertension"] == true) rv = rv * 0.95;
+    double hypertension_f = rv - temp;
+    temp = rv;
     if (userData["liver"] == true) rv = rv * 1.61;
+    double liver_f = rv - temp;
+    temp = rv;
     //return rv;s
-
+    temp = rv - 1;
+    age_f /= temp;
+    bmi_f /= temp;
+    gender_f /= temp;
+    asthma_f /= temp;
+    kidney_f /= temp;
+    heart_f /= temp;
+    immunesystem_f /= temp;
+    diabetes_f /= temp;
+    hypertension_f /= temp;
+    liver_f /= temp;
+    List<List<dynamic>> sortedFactors = [];
+    analysis["age"] = age_f;
+    sortedFactors.add(["Age", age_f]);
+    analysis["bmi"] = bmi_f;
+    sortedFactors.add(["BMI", bmi_f]);
+    analysis["gender"] = gender_f;
+    sortedFactors.add(["Gender", gender_f]);
+    analysis["asthma"] = asthma_f;
+    sortedFactors.add(["Asthma", asthma_f]);
+    analysis["heart"] = heart_f;
+    sortedFactors.add(["Heart", heart_f]);
+    analysis["kidney"] = kidney_f;
+    sortedFactors.add(["Kidney", kidney_f]);
+    analysis["immune system"] = immunesystem_f;
+    sortedFactors.add(["Immune System", immunesystem_f]);
+    analysis["hypertension"] = hypertension_f;
+    sortedFactors.add(["Hypertension", hypertension_f]);
+    analysis["diabetes"] = diabetes_f;
+    sortedFactors.add(["Diabetes", diabetes_f]);
+    analysis["asthma"] = asthma_f;
+    sortedFactors.add(["Asthma", asthma_f]);
+    sortedFactors.sort((a, b) => b[1].compareTo(a[1]));
+    analysis["sorted"] = sortedFactors;
     analysis["riskFactor"] = rv;
     print('The value of the risk factor is: $rv');
     analysis["riskFactorClamped"] = tan(rv * pi / 2);
@@ -197,6 +251,7 @@ class UserData with ChangeNotifier {
           "riskFactorClamped value out of range. Value if ${analysis["riskFactorClamped"]}. Assigning 0.2");
       analysis["riskFactorClamped"] = 0.2;
     }
+    print(analysis);
     return analysis;
   }
 }

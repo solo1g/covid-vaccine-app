@@ -24,15 +24,17 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   void getMarkers() {
     print("Showing places. Length is ${hospitals.results.length}");
     List<PlacesSearchResult> placesList = hospitals.results;
+    int id = 1;
     for (final place in placesList) {
       print(place.name);
       markers.add(
         Marker(
-          markerId: MarkerId(place.id),
+          markerId: MarkerId(id.toString()),
           position:
               LatLng(place.geometry.location.lat, place.geometry.location.lng),
         ),
       );
+      id++;
     }
   }
 
@@ -47,7 +49,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
         initialCameraPosition: CameraPosition(
           target: LatLng(context.watch<UserData>().userLocation.latitude,
               context.watch<UserData>().userLocation.longitude),
-          zoom: 18,
+          zoom: 15,
         ),
       ),
     );

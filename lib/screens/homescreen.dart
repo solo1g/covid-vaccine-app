@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: susceptibilityPercent(
+                  child: SusceptibilityPercent(
                     "Susceptibility",
                     context.watch<UserData>().userAnalysis["riskFactorClamped"],
                   ),
@@ -152,24 +152,16 @@ class _MapState extends State<Map> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: SizedBox(
-        height: 200,
-        width: double.infinity,
-        child: Card(
-          elevation: 5,
-          child: GoogleMap(
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(context.watch<UserData>().userLocation.latitude,
-                  context.watch<UserData>().userLocation.longitude),
-              zoom: 18,
-            ),
-            onTap: (_) =>
-                Navigator.pushNamed(context, GoogleMapScreen.routeName),
+      child: GestureDetector(
+        child: SizedBox(
+          height: 200,
+          width: double.infinity,
+          child: Card(
+            elevation: 5,
+            child: GoogleMapScreen(),
           ),
         ),
+        onTap: () => Navigator.pushNamed(context, GoogleMapScreen.routeName),
       ),
     );
   }
